@@ -206,7 +206,9 @@
   #publications { --sec: #15803d; --sec-soft: #e8f5ec; }
   #education    { --sec: #7e22ce; --sec-soft: #f3eafb; }
   #more         { --sec: #be123c; --sec-soft: #fbe9ee; }
+  #latest       { --sec: #0f4c5c; --sec-soft: #ffffff; }
   @media (prefers-color-scheme: dark) {
+    #latest       { --sec: #6fc3d2; --sec-soft: #171a1f; }
     #research     { --sec: #5eead4; --sec-soft: #10241f; }
     #experience   { --sec: #a5b4fc; --sec-soft: #191b30; }
     #teaching     { --sec: #fbbf24; --sec-soft: #2a2011; }
@@ -319,119 +321,10 @@
   .page-hidden { display: none !important; }
   .page-in { animation: pageIn .45s ease both; }
   @keyframes pageIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  nav ul { gap: 18px; }
+  nav ul a.active { color: var(--accent-2); }
+  nav ul a.active::after { transform: scaleX(1); }
   @media (prefers-reduced-motion: reduce) { .page-in { animation: none; } }
-
-  /* ================= Big menu buttons ================= */
-  nav .wrap { height: auto; flex-direction: column; justify-content: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
-  .brand { font-size: 26px; }
-  nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
-  nav ul a {
-    display: inline-block; font-size: 16px; font-weight: 600; color: var(--ink);
-    padding: 10px 20px; border-radius: 999px; background: var(--surface);
-    border: 1px solid var(--line); box-shadow: 0 3px 8px rgba(16,24,40,.08);
-    transition: transform .22s ease, background-color .22s ease, color .22s ease, box-shadow .22s ease, border-color .22s ease;
-  }
-  nav ul a::after { display: none; }
-  nav ul a:hover { transform: translateY(-3px) scale(1.07); background: var(--accent-2); border-color: var(--accent-2); color: #fff; box-shadow: 0 10px 22px rgba(200,85,61,.35); }
-  nav ul a.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 8px 18px rgba(15,76,92,.3); }
-  @media (prefers-color-scheme: dark) { nav ul a.active, nav ul a:hover { color: #111; } }
-  @media (max-width: 860px) {
-    nav ul { flex-wrap: nowrap; justify-content: flex-start; }
-    nav ul a { font-size: 14px; padding: 8px 15px; }
-    .brand { font-size: 22px; }
-  }
-
-  /* ================= Explore tiles on the home page ================= */
-  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .tile {
-    --c: var(--accent);
-    display: flex; flex-direction: column; gap: 6px; padding: 24px; border-radius: 18px;
-    background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--c);
-    color: var(--ink); box-shadow: 0 6px 16px color-mix(in srgb, var(--c) 16%, transparent);
-    transition: transform .22s ease, box-shadow .22s ease, background-color .22s ease;
-  }
-  .tile:hover { text-decoration: none; transform: translateY(-12px) scale(1.04); box-shadow: 0 24px 48px color-mix(in srgb, var(--c) 38%, transparent);
-    background: linear-gradient(160deg, color-mix(in srgb, var(--c) 18%, var(--surface)) 0%, var(--surface) 75%); }
-  .tile .ico { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--c) 15%, transparent); margin-bottom: 6px; }
-  .tile .ico svg { width: 26px; height: 26px; fill: var(--c); }
-  .tile b { font-family: "Fraunces", serif; font-size: 22px; color: var(--c); }
-  .tile span:not(.ico) { color: var(--muted); font-size: 14px; flex: 1; }
-  .tile em { font-style: normal; font-weight: 600; font-size: 14px; color: var(--c); transition: transform .22s ease; }
-  .tile:hover em { transform: translateX(6px); }
-  .t-research { --c: #0f766e; } .t-experience { --c: #4338ca; } .t-teaching { --c: #b45309; }
-  .t-publications { --c: #15803d; } .t-education { --c: #7e22ce; } .t-projects { --c: #be123c; }
-  @media (prefers-color-scheme: dark) {
-    .t-research { --c: #5eead4; } .t-experience { --c: #a5b4fc; } .t-teaching { --c: #fbbf24; }
-    .t-publications { --c: #86efac; } .t-education { --c: #d8b4fe; } .t-projects { --c: #fda4af; }
-  }
-  @media (max-width: 860px) { .tiles { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .tiles { grid-template-columns: 1fr; } }
-
-  /* ================= Previous / Next buttons ================= */
-  .pager { display: flex; justify-content: space-between; gap: 12px; margin: 10px 0 30px; flex-wrap: wrap; }
-  .pager a {
-    display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 14px;
-    background: var(--surface); border: 1px solid var(--line); color: var(--ink); font-weight: 600;
-    box-shadow: 0 6px 16px rgba(16,24,40,.08); transition: transform .22s ease, background-color .22s ease, color .22s ease;
-  }
-  .pager a small { display: block; font-weight: 500; font-size: 12px; color: var(--muted); }
-  .pager a:hover { text-decoration: none; transform: translateY(-5px) scale(1.05); background: var(--accent); color: #fff; }
-  .pager a:hover small { color: rgba(255,255,255,.8); }
-  .pager .next { margin-left: auto; text-align: right; }
-
-  /* ================= Home page polish ================= */
-  /* Soft glowing shapes behind the intro */
-  .hero { position: relative; overflow: hidden; }
-  .hero > * { position: relative; z-index: 1; }
-  .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; z-index: 0; pointer-events: none; }
-  .hero::before { width: 340px; height: 340px; background: #5eead4; top: -120px; left: -80px; }
-  .hero::after  { width: 300px; height: 300px; background: #c4b5fd; bottom: -140px; right: 180px; }
-  @media (prefers-color-scheme: dark) { .hero::before, .hero::after { opacity: .18; } }
-
-  /* Name with a gradient, live dot in the badge */
-  .hero h1 { background: linear-gradient(90deg, var(--accent) 0%, #4338ca 60%, var(--accent-2) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 56px; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); box-shadow: 0 3px 10px rgba(16,24,40,.08); }
-  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 0 rgba(22,163,74,.6); animation: pulse 2s infinite; }
-  @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(22,163,74,0); } 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } }
-
-  /* Evenly aligned text */
-  .bio { text-align: justify; hyphens: auto; }
-  .bio { max-width: none; }
-
-  /* Photo ring */
-  .avatar, .avatar-fb { box-shadow: 0 0 0 5px var(--surface), 0 0 0 8px var(--accent), 0 10px 26px rgba(15,76,92,.25); }
-  .profile-card { padding-top: 30px; }
-
-  /* Latest news strip */
-  .latest { display: grid; grid-template-columns: auto 1fr 1fr; gap: 14px; align-items: stretch; margin: 26px 0; }
-  .latest .lbl { display: flex; align-items: center; justify-content: center; padding: 0 22px; border-radius: 16px; background: var(--accent); color: #fff; font: 600 20px "Fraunces", serif; }
-  @media (prefers-color-scheme: dark) { .latest .lbl { color: #111; } }
-  .news { display: flex; gap: 14px; align-items: center; padding: 16px 20px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); box-shadow: 0 6px 16px rgba(16,24,40,.07); transition: transform .22s ease, box-shadow .22s ease; }
-  .news:hover { text-decoration: none; transform: translateY(-6px) scale(1.02); box-shadow: 0 18px 36px rgba(15,76,92,.18); }
-  .news .tagn { flex: none; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
-  .news .tagn.new { background: var(--warm-soft); color: var(--accent-2); }
-  .news b { display: block; font-size: 15px; line-height: 1.35; }
-  .news small { color: var(--muted); font-size: 13px; }
-
-  /* Explore tiles: centered and evenly aligned */
-  .tile { align-items: center; text-align: center; padding: 28px 22px; }
-  .tile .ico { width: 58px; height: 58px; border-radius: 18px; }
-  .tile .ico svg { width: 30px; height: 30px; }
-  .tile span:not(.ico) { min-height: 2.9em; }
-  .tile em { margin-top: 4px; padding: 6px 16px; border-radius: 999px; background: color-mix(in srgb, var(--c) 12%, transparent); }
-  .tile:hover em { transform: none; background: var(--c); color: #fff; }
-
-  /* Contact buttons in an even 2 x 2 grid */
-  .contact .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-  .contact .actions .btn:first-child { grid-column: 1 / -1; }
-  .contact .btn { justify-content: center; text-align: center; }
-
-  @media (max-width: 860px) {
-    .hero h1 { font-size: 40px; }
-    .latest { grid-template-columns: 1fr; }
-    .latest .lbl { padding: 10px; }
-    .bio { text-align: left; }
-  }
 
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
@@ -526,18 +419,45 @@
     </aside>
   </header>
 
-  <!-- ================= LATEST (home page only) ================= -->
-  <div class="latest" id="latest">
-    <div class="lbl">Latest</div>
-    <a class="news" href="https://doi.org/10.1109/ACCESS.2026.3681899" target="_blank" rel="noopener">
-      <span class="tagn new">Published</span>
-      <span><b>Fine-Grained Visual Classification survey</b><small>IEEE Access, 2026</small></span>
-    </a>
-    <a class="news" href="https://arxiv.org/html/2610.11117v1" target="_blank" rel="noopener">
-      <span class="tagn">Preprint</span>
-      <span><b>MCL: Meta Convolution Layer</b><small>arXiv, 2026</small></span>
-    </a>
-  </div>
+  <!-- ================= LATEST PAPERS (home page only) ================= -->
+  <section id="latest">
+    <div class="sec-head">
+      <div>
+        <h2>Latest Papers</h2>
+        <p class="sec-sub">My four most recent papers. Click a card to read it.</p>
+      </div>
+    </div>
+    <div class="featured">
+      <a class="feat" href="https://arxiv.org/html/2610.11117v1" target="_blank" rel="noopener">
+        <span class="kind">Network design</span>
+        <h3>MCL: Meta Convolution Layer</h3>
+        <p>A meta convolution layer built around a meta-block, proposed as a new building block for convolutional neural networks.</p>
+        <span class="venue">arXiv preprint, 2026</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+      <a class="feat" href="https://doi.org/10.1109/ACCESS.2026.3681899" target="_blank" rel="noopener">
+        <span class="kind">Survey</span>
+        <h3>Fine-Grained Visual Classification: A Survey of Methods, Architectures, and Emerging Trends</h3>
+        <p>A survey of methods, architectures and emerging trends in fine-grained visual classification.</p>
+        <span class="venue">IEEE Access, 2026</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+      <a class="feat" href="https://doi.org/10.1109/ACCESS.2025.3635173" target="_blank" rel="noopener">
+        <span class="kind">Fine-grained recognition</span>
+        <h3>Localized Feature Enhancement via Patch-Wise Learning for Fine-Grained Image Classification</h3>
+        <p>Patch-wise learning to enhance localized features for fine-grained image classification.</p>
+        <span class="venue">IEEE Access, 2025</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+      <a class="feat" href="https://doi.org/10.3390/electronics14091823" target="_blank" rel="noopener">
+        <span class="kind">Biometric security</span>
+        <h3>Lightweight Network for Spoof Fingerprint Detection by Attention-Aggregated Receptive Field-Wise Feature</h3>
+        <p>A lightweight network with only 0.14M parameters for spoof fingerprint detection, evaluated on LivDet-2015 and LivDet-2017.</p>
+        <span class="venue">Electronics, 2025</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+    </div>
+  </section>
 
   <!-- ================= RESEARCH ================= -->
   <section id="research">
@@ -699,45 +619,6 @@
     </div>
   </section>
 
-  <!-- ================= EXPLORE (home page only) ================= -->
-  <section id="explore">
-    <div class="sec-head">
-      <div>
-        <h2>Explore</h2>
-        <p class="sec-sub">Pick a page to learn more about my work.</p>
-      </div>
-    </div>
-    <div class="tiles">
-      <a class="tile t-research" href="#research">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M9.5 3a6.5 6.5 0 0 1 5.2 10.4l5.4 5.4-1.4 1.4-5.4-5.4A6.5 6.5 0 1 1 9.5 3zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/></svg></span>
-        <b>Research</b><span>Areas I work in and featured papers</span><em>Open &rarr;</em>
-      </a>
-      <a class="tile t-experience" href="#experience">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M10 3h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4V5a2 2 0 0 1 2-2zm0 4h4V5h-4v2z"/></svg></span>
-        <b>Experience</b><span>Research Assistant at Chosun University</span><em>Open &rarr;</em>
-      </a>
-      <a class="tile t-teaching" href="#teaching">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4zm8 0c-.3 0-.7 0-1.1.1 1.3.9 2.1 2.1 2.1 3.9v2h7v-2c0-2.7-5.3-4-8-4z"/></svg></span>
-        <b>Teaching</b><span>Students I have taught and guided</span><em>Open &rarr;</em>
-      </a>
-      <a class="tile t-publications" href="#publications">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12v2h8v-2H8zm0 4v2h8v-2H8z"/></svg></span>
-        <b>Publications</b><span>19 publications, 419 citations</span><em>Open &rarr;</em>
-      </a>
-      <a class="tile t-education" href="#education">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-6.8 9.4V16c0 2.2 3 4 6.8 4s6.8-1.8 6.8-4v-3.6L12 16l-6.8-3.6z"/></svg></span>
-        <b>Education</b><span>M.Sc. Chosun University, B.Sc. Prime University</span><em>Open &rarr;</em>
-      </a>
-      <a class="tile t-projects" href="#projects">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7L12 2z"/></svg></span>
-        <b>Projects &amp; Awards</b><span>Projects, scholarships and certifications</span><em>Open &rarr;</em>
-      </a>
-    </div>
-  </section>
-
-  <!-- Previous / Next buttons shown at the bottom of inner pages -->
-  <div class="pager page-hidden" id="pager"></div>
-
   <!-- ================= CONTACT ================= -->
   <section id="contact" style="border-top:none;padding-top:20px">
     <div class="contact">
@@ -878,7 +759,7 @@ document.getElementById("yr").textContent = new Date().getFullYear();
 
 /* ---------- Separate pages: each menu item shows only its own page ---------- */
 const PAGES = {
-  home:         ["home", "latest", "explore", "contact"],
+  home:         ["home", "latest", "contact"],
   research:     ["research"],
   experience:   ["experience"],
   teaching:     ["teaching"],
@@ -900,28 +781,11 @@ function showPage() {
     if (on) { void el.offsetWidth; el.classList.add("page-in"); }
   });
   document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + key));
-
-  // Previous / Next buttons on inner pages
-  const order = Object.keys(PAGES);
-  const i = order.indexOf(key);
-  const pager = document.getElementById("pager");
-  const label = k => document.querySelector(`#menu a[href="#${k}"]`).textContent;
-  if (key === "home") {
-    pager.classList.add("page-hidden");
-  } else {
-    const prev = order[i - 1], next = order[i + 1];
-    pager.innerHTML =
-      (prev ? `<a class="prev" href="#${prev}">&larr; <span><small>Previous</small>${label(prev)}</span></a>` : "") +
-      (next ? `<a class="next" href="#${next}"><span><small>Next</small>${label(next)}</span> &rarr;</a>` : "");
-    pager.classList.remove("page-hidden");
-  }
   document.title = key === "home" ? "Md Al Amin | Computer Vision Researcher"
     : "Md Al Amin | " + document.querySelector(`#menu a[href="#${key}"]`).textContent;
   window.scrollTo({ top: 0 });
 }
 window.addEventListener("hashchange", showPage);
-// Always open on the Home page when the site is first loaded
-if (location.hash && location.hash !== "#home") history.replaceState(null, "", location.pathname + location.search);
 showPage();
 </script>
 </body>
