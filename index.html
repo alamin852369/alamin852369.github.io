@@ -613,6 +613,52 @@
   @media (max-width: 1000px) { .interests-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .interests-grid { grid-template-columns: 1fr; } }
 
+  /* Project cards */
+  .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 30px; }
+  @media (min-width: 1001px) { .proj-grid > .proj:last-child:nth-child(3n+1) { grid-column: 2; } }
+  .proj { display: flex; flex-direction: column; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--sec);
+    border-radius: 14px; padding: 18px 18px 16px; color: var(--ink); box-shadow: 0 6px 16px color-mix(in srgb, var(--sec) 10%, transparent);
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+  a.proj:hover { text-decoration: none; transform: translateY(-6px) scale(1.02); border-color: var(--sec); box-shadow: 0 16px 32px color-mix(in srgb, var(--sec) 26%, transparent); }
+  .proj .k { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--sec); }
+  .proj h4 { margin: 0; font-size: 16px; line-height: 1.3; }
+  .proj p { margin: 0; font-size: 14px; color: var(--muted); flex: 1; }
+  .proj .gh { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--sec); }
+  .proj .gh svg { width: 15px; height: 15px; fill: currentColor; }
+  .proj .gh.muted { color: var(--faint); font-weight: 500; }
+  .awards-box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; }
+  #more .sec-head .btn { align-self: center; }
+  @media (max-width: 1000px) { .proj-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .proj-grid { grid-template-columns: 1fr; } }
+
+  /* Award cards with certificate images + full-size viewer */
+  .awards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .award { margin: 0; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--sec) 10%, transparent); transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+  .award:hover { transform: translateY(-6px); border-color: var(--sec); box-shadow: 0 16px 32px color-mix(in srgb, var(--sec) 24%, transparent); }
+  .award-thumb { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0; cursor: zoom-in;
+    background: color-mix(in srgb, var(--sec) 8%, var(--surface)); border-bottom: 1px solid var(--line); }
+  .award-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .award-thumb .ph { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    color: var(--sec); font: 600 12px "Inter", sans-serif; }
+  .award-thumb .ph svg { width: 34px; height: 34px; fill: currentColor; opacity: .7; }
+  .award.noimg .award-thumb { cursor: default; }
+  .award.noimg img { display: none; }
+  .award.noimg .ph { display: flex; }
+  .award figcaption { padding: 12px 14px 14px; font-size: 14px; line-height: 1.45; }
+  .award figcaption .k { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--sec); margin-bottom: 4px; }
+  #lightbox { position: fixed; inset: 0; z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px;
+    background: rgba(10,14,25,.82); cursor: zoom-out; }
+  #lightbox.open { display: flex; }
+  #lightbox figure { margin: 0; max-width: 92vw; max-height: 90vh; text-align: center; }
+  #lightbox img { max-width: 92vw; max-height: 80vh; border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,.5); background: #fff; }
+  #lightbox figcaption { color: #e5e7eb; margin-top: 12px; font-size: 15px; }
+  #lightbox .x { position: absolute; top: 16px; right: 20px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255,255,255,.15);
+    color: #fff; font-size: 24px; cursor: pointer; }
+  @media (max-width: 1100px) { .awards-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .awards-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 440px) { .awards-grid { grid-template-columns: 1fr; } }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -879,28 +925,133 @@
 
   <!-- ================= PROJECTS & AWARDS ================= -->
   <section id="more">
-    <div class="two">
+    <div class="sec-head">
       <div>
-        <h3 class="h3small">Projects</h3>
-        <ul class="list">
-          <li><span class="k">Computer Vision</span>Fine-grained image classification with CNNs in PyTorch</li>
-          <li><span class="k">Computer Vision</span>Fake fingerprint detection with CNNs in PyTorch</li>
-          <li><span class="k">Computer Vision</span>Steering angle prediction from lane line images</li>
-          <li><span class="k">Generative Models</span>Digit image generation with GANs on MNIST</li>
-          <li><span class="k">NLP</span>20 Newsgroups classification with attention-based BiLSTM</li>
-          <li><span class="k">NLP</span>Quora question pair similarity</li>
-        </ul>
+        <h2>Projects</h2>
+        <p class="sec-sub">Research and personal projects. Click a card to open the code on GitHub.</p>
       </div>
-      <div>
+      <a class="btn" href="https://github.com/alamin852369?tab=repositories" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>All repositories</a>
+    </div>
+    <div class="proj-grid">
+        <div class="proj">
+          <span class="k">Computer Vision</span><h4>Fine-Grained Image Classification</h4><p>Fine-grained image classification with CNNs in PyTorch.</p>
+          <span class="gh muted">Research project</span>
+        </div>
+        <div class="proj">
+          <span class="k">Computer Vision</span><h4>Fake Fingerprint Detection</h4><p>Spoof fingerprint detection with CNNs in PyTorch.</p>
+          <span class="gh muted">Research project</span>
+        </div>
+        <a class="proj" href="https://github.com/alamin852369/Self_Driving_Car_with_Tensorflow" target="_blank" rel="noopener">
+          <span class="k">Computer Vision</span><h4>Self-Driving Car (TensorFlow)</h4><p>Steering angle prediction for a self-driving car, built with TensorFlow.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Self_Driving_Car_with_Keras" target="_blank" rel="noopener">
+          <span class="k">Computer Vision</span><h4>Self-Driving Car (Keras)</h4><p>Steering angle prediction for a self-driving car, built with Keras.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Cat-vs-Dogs" target="_blank" rel="noopener">
+          <span class="k">Computer Vision</span><h4>Cats vs Dogs</h4><p>Image classification of cats and dogs with deep learning.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/CNN_0n_MNIST" target="_blank" rel="noopener">
+          <span class="k">Computer Vision</span><h4>CNN on MNIST</h4><p>Handwritten digit classification with a convolutional neural network.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Generative-Adversarial-Networks" target="_blank" rel="noopener">
+          <span class="k">Generative Models</span><h4>Generative Adversarial Networks</h4><p>Generating digit images with GANs.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Project_20_Newsgroups" target="_blank" rel="noopener">
+          <span class="k">NLP</span><h4>20 Newsgroups Classification</h4><p>Text classification on the 20 Newsgroups dataset.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Spam_Email_Detection_on_Trec_07_Dataset" target="_blank" rel="noopener">
+          <span class="k">NLP</span><h4>Spam Email Detection</h4><p>Spam email detection on the TREC 2007 dataset.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Quora-question-Pair-Similarity-Problem" target="_blank" rel="noopener">
+          <span class="k">NLP</span><h4>Quora Question Pair Similarity</h4><p>Finding whether two Quora questions ask the same thing.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/ML-for-Type-2-Diabetes" target="_blank" rel="noopener">
+          <span class="k">AI for Healthcare</span><h4>ML for Type-2 Diabetes</h4><p>Preprocessing RNA-Seq raw data and applying machine learning to detect Type-2 Diabetes.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Personalized-Cancer-Diagnosis" target="_blank" rel="noopener">
+          <span class="k">AI for Healthcare</span><h4>Personalized Cancer Diagnosis</h4><p>Machine learning for personalized cancer diagnosis.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/aiddev-agentic-pr-predictor" target="_blank" rel="noopener">
+          <span class="k">Software Engineering + AI</span><h4>AIDev Agentic PR Predictor</h4><p>Early-signal prediction of pull request merge vs close on the AIDev dataset.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/pr_merge_predictor" target="_blank" rel="noopener">
+          <span class="k">Software Engineering + AI</span><h4>PR Merge Predictor</h4><p>Predicting whether a pull request will be merged.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/-Amazon-fashion-discovery-engine" target="_blank" rel="noopener">
+          <span class="k">Recommender Systems</span><h4>Amazon Fashion Discovery Engine</h4><p>Recommending similar fashion products.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Facebook-Friend-Recommendation-using-Graph-Mining" target="_blank" rel="noopener">
+          <span class="k">Recommender Systems</span><h4>Facebook Friend Recommendation</h4><p>Friend recommendation using graph mining.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Human-Activity-Recognition" target="_blank" rel="noopener">
+          <span class="k">Machine Learning</span><h4>Human Activity Recognition</h4><p>Recognizing human activities with machine learning.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Time-Series-Forecasting-Production-" target="_blank" rel="noopener">
+          <span class="k">Machine Learning</span><h4>Time Series Forecasting</h4><p>Time series forecasting of production data.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+        <a class="proj" href="https://github.com/alamin852369/Machine-Learning" target="_blank" rel="noopener">
+          <span class="k">Machine Learning</span><h4>Machine Learning Notebooks</h4><p>A collection of machine learning notebooks.</p>
+          <span class="gh"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>View on GitHub &rarr;</span>
+        </a>
+    </div>
+    <div class="awards-box">
         <h3 class="h3small">Awards and Certifications</h3>
-        <ul class="list">
-          <li><span class="k">2023</span>Fully funded scholarship for M.Sc. in Computer Engineering, Chosun University</li>
-          <li><span class="k">2020</span>Runner-up, Programming Contest, Dept. of CSE, Prime University</li>
-          <li><span class="k">Certification</span>Python Basic and Intermediate, HackerRank</li>
-          <li><span class="k">Certification</span>COVID-19 Operational Planning Guidelines and Partners Platform, WHO</li>
-          <li><span class="k">Fellowship</span>4th bdSIG, Bangladesh School of Internet Governance</li>
-        </ul>
-      </div>
+        <p class="sec-sub" style="margin:-4px 0 18px">Click a certificate to see it full size.</p>
+        <!-- EDIT HERE: put each certificate image in a "certificates" folder in the repo,
+             using the file names below. A card shows a placeholder until its image is uploaded. -->
+        <div class="awards-grid">
+          <figure class="award" data-img="certificates/scholarship.jpg">
+            <button class="award-thumb" type="button" aria-label="View certificate for Fully funded scholarship for M.Sc. in Computer Engineering, Chosun University">
+              <img src="certificates/scholarship.jpg" alt="Certificate: Fully funded scholarship for M.Sc. in Computer Engineering, Chosun University" loading="lazy" onerror="this.closest('.award').classList.add('noimg')">
+              <span class="ph"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h5v2H8v-2z"/></svg>Certificate</span>
+            </button>
+            <figcaption><span class="k">2023</span>Fully funded scholarship for M.Sc. in Computer Engineering, Chosun University</figcaption>
+          </figure>
+          <figure class="award" data-img="certificates/programming-contest.jpg">
+            <button class="award-thumb" type="button" aria-label="View certificate for Runner-up, Programming Contest, Dept. of CSE, Prime University">
+              <img src="certificates/programming-contest.jpg" alt="Certificate: Runner-up, Programming Contest, Dept. of CSE, Prime University" loading="lazy" onerror="this.closest('.award').classList.add('noimg')">
+              <span class="ph"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h5v2H8v-2z"/></svg>Certificate</span>
+            </button>
+            <figcaption><span class="k">2020</span>Runner-up, Programming Contest, Dept. of CSE, Prime University</figcaption>
+          </figure>
+          <figure class="award" data-img="certificates/hackerrank-python.jpg">
+            <button class="award-thumb" type="button" aria-label="View certificate for Python Basic and Intermediate, HackerRank">
+              <img src="certificates/hackerrank-python.jpg" alt="Certificate: Python Basic and Intermediate, HackerRank" loading="lazy" onerror="this.closest('.award').classList.add('noimg')">
+              <span class="ph"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h5v2H8v-2z"/></svg>Certificate</span>
+            </button>
+            <figcaption><span class="k">Certification</span>Python Basic and Intermediate, HackerRank</figcaption>
+          </figure>
+          <figure class="award" data-img="certificates/who-covid19.jpg">
+            <button class="award-thumb" type="button" aria-label="View certificate for COVID-19 Operational Planning Guidelines and Partners Platform, WHO">
+              <img src="certificates/who-covid19.jpg" alt="Certificate: COVID-19 Operational Planning Guidelines and Partners Platform, WHO" loading="lazy" onerror="this.closest('.award').classList.add('noimg')">
+              <span class="ph"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h5v2H8v-2z"/></svg>Certificate</span>
+            </button>
+            <figcaption><span class="k">Certification</span>COVID-19 Operational Planning Guidelines and Partners Platform, WHO</figcaption>
+          </figure>
+          <figure class="award" data-img="certificates/bdsig.jpg">
+            <button class="award-thumb" type="button" aria-label="View certificate for 4th bdSIG, Bangladesh School of Internet Governance">
+              <img src="certificates/bdsig.jpg" alt="Certificate: 4th bdSIG, Bangladesh School of Internet Governance" loading="lazy" onerror="this.closest('.award').classList.add('noimg')">
+              <span class="ph"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h5v2H8v-2z"/></svg>Certificate</span>
+            </button>
+            <figcaption><span class="k">Fellowship</span>4th bdSIG, Bangladesh School of Internet Governance</figcaption>
+          </figure>
+        </div>
     </div>
   </section>
 
@@ -1062,7 +1213,7 @@ const STUDENTS = [
 ];
 
 /* Optional numbers shown above the cards. Leave as null to hide. */
-const STUDENTS_MENTORED = 7;        // number shown above the cards
+const STUDENTS_MENTORED = null;     // e.g. 7 (null hides the box)
 const COAUTHORED_PAPERS = null;     // e.g. 3
 
 /* =====================================================================
@@ -1288,6 +1439,21 @@ window.addEventListener("hashchange", showPage);
 if (location.hash && location.hash !== "#home") history.replaceState(null, "", location.pathname + location.search);
 showPage();
 armReveal();
+/* ---------- Certificate viewer ---------- */
+(function () {
+  const lb = document.createElement("div"); lb.id = "lightbox";
+  lb.innerHTML = '<button class="x" aria-label="Close">&times;</button><figure><img alt=""><figcaption></figcaption></figure>';
+  document.body.append(lb);
+  const close = () => lb.classList.remove("open");
+  lb.addEventListener("click", e => { if (e.target.tagName !== "IMG") close(); });
+  addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  document.querySelectorAll(".award").forEach(a => a.querySelector(".award-thumb").addEventListener("click", () => {
+    if (a.classList.contains("noimg")) return;
+    lb.querySelector("img").src = a.querySelector("img").src;
+    lb.querySelector("figcaption").textContent = a.querySelector("figcaption").childNodes[1].textContent;
+    lb.classList.add("open");
+  }));
+})();
 </script>
 </body>
 </html>
