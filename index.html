@@ -449,6 +449,37 @@
   @media (prefers-color-scheme: dark) { .tile.current em, .tile.current::before { color: #111; } .tile.current .ico svg { fill: #111; } }
   @media (prefers-reduced-motion: reduce) { .tile.current { animation: none; } }
 
+  /* ================= Make the page feel alive ================= */
+  /* Intro background slowly drifts */
+  .hero { background-size: 220% 220% !important; animation: heroShift 16s ease-in-out infinite alternate; }
+  @keyframes heroShift { 0% { background-position: 0% 30%; } 100% { background-position: 100% 70%; } }
+  .hero::before { animation: blobA 14s ease-in-out infinite alternate; }
+  .hero::after  { animation: blobB 18s ease-in-out infinite alternate; }
+  @keyframes blobA { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(160px,60px) scale(1.25); } }
+  @keyframes blobB { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-200px,-50px) scale(1.2); } }
+
+  /* Profile photo gently floats, explore icons bob */
+  .avatar, .avatar-fb { animation: floaty 6s ease-in-out infinite; }
+  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .tile .ico { animation: bob 3.6s ease-in-out infinite; }
+  .tile:nth-child(2) .ico { animation-delay: .4s; } .tile:nth-child(3) .ico { animation-delay: .8s; }
+  .tile:nth-child(4) .ico { animation-delay: 1.2s; } .tile:nth-child(5) .ico { animation-delay: 1.6s; } .tile:nth-child(6) .ico { animation-delay: 2s; }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-6px) rotate(-4deg); } }
+
+  /* Section heading bar grows in */
+  section:not(#contact) h2::before { animation: barGrow 1.2s ease both; transform-origin: bottom; }
+  @keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  /* Things rise into view as you scroll */
+  .reveal { opacity: 0; }
+  .reveal.in { animation: riseIn .7s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes riseIn { from { opacity: 0; transform: translateY(34px) scale(.97); } to { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero, .hero::before, .hero::after, .avatar, .avatar-fb, .tile .ico, section h2::before { animation: none !important; }
+    .reveal { opacity: 1; } .reveal.in { animation: none; }
+  }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -969,10 +1000,42 @@ function showPage() {
     : "Md Al Amin | " + document.querySelector(`#menu a[href="#${key}"]`).textContent;
   window.scrollTo({ top: 0 });
 }
+/* ---------- Alive: reveal on scroll and count-up numbers ---------- */
+const REVEAL_SEL = ".feat, .tile, .tl-item, .pub, .edu, #more .two > div, .mentee, .chip, .profile-card, .pager a";
+const io = ("IntersectionObserver" in window) ? new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const sibs = [...el.parentElement.children];
+    el.style.animationDelay = Math.min(sibs.indexOf(el), 8) * 0.08 + "s";
+    el.classList.add("in");
+    io.unobserve(el);
+    el.addEventListener("animationend", () => { el.classList.remove("reveal", "in"); el.style.animationDelay = ""; }, { once: true });
+  });
+}, { threshold: 0.12 }) : null;
+function armReveal() {
+  if (!io || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll(REVEAL_SEL).forEach(el => {
+    if (el.closest(".page-hidden") || el.classList.contains("reveal")) return;
+    el.classList.add("reveal"); io.observe(el);
+  });
+}
+function countUp() {
+  document.querySelectorAll(".metric b").forEach(b => {
+    const end = parseInt(b.dataset.n || b.textContent, 10); b.dataset.n = end;
+    const t0 = performance.now(), dur = 1400;
+    const step = t => { const k = Math.min((t - t0) / dur, 1); b.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+window.addEventListener("hashchange", () => setTimeout(armReveal, 30));
+window.addEventListener("load", countUp);
+
 window.addEventListener("hashchange", showPage);
 // Always open on the Home page when the site is first loaded
 if (location.hash && location.hash !== "#home") history.replaceState(null, "", location.pathname + location.search);
 showPage();
+armReveal();
 </script>
 </body>
 </html>
