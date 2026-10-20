@@ -379,6 +379,60 @@
   .pager a:hover small { color: rgba(255,255,255,.8); }
   .pager .next { margin-left: auto; text-align: right; }
 
+  /* ================= Home page polish ================= */
+  /* Soft glowing shapes behind the intro */
+  .hero { position: relative; overflow: hidden; }
+  .hero > * { position: relative; z-index: 1; }
+  .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; z-index: 0; pointer-events: none; }
+  .hero::before { width: 340px; height: 340px; background: #5eead4; top: -120px; left: -80px; }
+  .hero::after  { width: 300px; height: 300px; background: #c4b5fd; bottom: -140px; right: 180px; }
+  @media (prefers-color-scheme: dark) { .hero::before, .hero::after { opacity: .18; } }
+
+  /* Name with a gradient, live dot in the badge */
+  .hero h1 { background: linear-gradient(90deg, var(--accent) 0%, #4338ca 60%, var(--accent-2) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 56px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); box-shadow: 0 3px 10px rgba(16,24,40,.08); }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 0 rgba(22,163,74,.6); animation: pulse 2s infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(22,163,74,0); } 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } }
+
+  /* Evenly aligned text */
+  .bio { text-align: justify; hyphens: auto; }
+  .bio { max-width: none; }
+
+  /* Photo ring */
+  .avatar, .avatar-fb { box-shadow: 0 0 0 5px var(--surface), 0 0 0 8px var(--accent), 0 10px 26px rgba(15,76,92,.25); }
+  .profile-card { padding-top: 30px; }
+
+  /* Latest news strip */
+  .latest { display: grid; grid-template-columns: auto 1fr 1fr; gap: 14px; align-items: stretch; margin: 26px 0; }
+  .latest .lbl { display: flex; align-items: center; justify-content: center; padding: 0 22px; border-radius: 16px; background: var(--accent); color: #fff; font: 600 20px "Fraunces", serif; }
+  @media (prefers-color-scheme: dark) { .latest .lbl { color: #111; } }
+  .news { display: flex; gap: 14px; align-items: center; padding: 16px 20px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); box-shadow: 0 6px 16px rgba(16,24,40,.07); transition: transform .22s ease, box-shadow .22s ease; }
+  .news:hover { text-decoration: none; transform: translateY(-6px) scale(1.02); box-shadow: 0 18px 36px rgba(15,76,92,.18); }
+  .news .tagn { flex: none; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .news .tagn.new { background: var(--warm-soft); color: var(--accent-2); }
+  .news b { display: block; font-size: 15px; line-height: 1.35; }
+  .news small { color: var(--muted); font-size: 13px; }
+
+  /* Explore tiles: centered and evenly aligned */
+  .tile { align-items: center; text-align: center; padding: 28px 22px; }
+  .tile .ico { width: 58px; height: 58px; border-radius: 18px; }
+  .tile .ico svg { width: 30px; height: 30px; }
+  .tile span:not(.ico) { min-height: 2.9em; }
+  .tile em { margin-top: 4px; padding: 6px 16px; border-radius: 999px; background: color-mix(in srgb, var(--c) 12%, transparent); }
+  .tile:hover em { transform: none; background: var(--c); color: #fff; }
+
+  /* Contact buttons in an even 2 x 2 grid */
+  .contact .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .contact .actions .btn:first-child { grid-column: 1 / -1; }
+  .contact .btn { justify-content: center; text-align: center; }
+
+  @media (max-width: 860px) {
+    .hero h1 { font-size: 40px; }
+    .latest { grid-template-columns: 1fr; }
+    .latest .lbl { padding: 10px; }
+    .bio { text-align: left; }
+  }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -471,6 +525,19 @@
       <p class="metrics-note">Google Scholar, October 2026</p>
     </aside>
   </header>
+
+  <!-- ================= LATEST (home page only) ================= -->
+  <div class="latest" id="latest">
+    <div class="lbl">Latest</div>
+    <a class="news" href="https://doi.org/10.1109/ACCESS.2026.3681899" target="_blank" rel="noopener">
+      <span class="tagn new">Published</span>
+      <span><b>Fine-Grained Visual Classification survey</b><small>IEEE Access, 2026</small></span>
+    </a>
+    <a class="news" href="https://arxiv.org/html/2610.11117v1" target="_blank" rel="noopener">
+      <span class="tagn">Preprint</span>
+      <span><b>MCL: Meta Convolution Layer</b><small>arXiv, 2026</small></span>
+    </a>
+  </div>
 
   <!-- ================= RESEARCH ================= -->
   <section id="research">
@@ -811,7 +878,7 @@ document.getElementById("yr").textContent = new Date().getFullYear();
 
 /* ---------- Separate pages: each menu item shows only its own page ---------- */
 const PAGES = {
-  home:         ["home", "explore", "contact"],
+  home:         ["home", "latest", "explore", "contact"],
   research:     ["research"],
   experience:   ["experience"],
   teaching:     ["teaching"],
