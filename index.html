@@ -594,6 +594,7 @@
   .mentee-links a:hover { background: var(--sec); color: #fff; text-decoration: none; transform: translateY(-2px); }
   .mentee-links svg { width: 14px; height: 14px; fill: currentColor; }
   .mentees { grid-template-columns: repeat(3, 1fr) !important; }
+  @media (min-width: 1001px) { .mentees > .mentee:last-child:nth-child(3n+1) { grid-column: 2; } }
   @media (max-width: 1000px) { .mentees { grid-template-columns: 1fr 1fr !important; } }
   @media (max-width: 640px) { .mentees { grid-template-columns: 1fr !important; } }
 
@@ -968,40 +969,84 @@ const STUDENTS = [
   {
     name: "Student Name 1",
     university: "Prime University, Bangladesh",
-    position: "Current position, e.g. M.Sc. student, Chosun University",
+    position: "Current position of student 1",
     email: "student1@example.com",
     linkedin: "https://www.linkedin.com/in/your-student-1",
-    photo: "",
+    photo: "students/student1.jpg",
     taught: "Research paper writing, PyTorch basics",
     period: "2024 to 2025",
-    comment: "SAMPLE: replace with the student's own comment about working with you."
+    comment: "SAMPLE: replace with student 1's own comment about working with you."
   },
   {
     name: "Student Name 2",
     university: "Chosun University, South Korea",
-    position: "Current position, e.g. Research Assistant, Computer Vision Lab",
+    position: "Current position of student 2",
     email: "student2@example.com",
     linkedin: "https://www.linkedin.com/in/your-student-2",
-    photo: "",
+    photo: "students/student2.jpg",
     taught: "Deep learning for image classification",
     period: "2025",
-    comment: "SAMPLE: replace with the student's own comment about working with you."
+    comment: "SAMPLE: replace with student 2's own comment about working with you."
   },
   {
     name: "Student Name 3",
     university: "Prime University, Bangladesh",
-    position: "Current position, e.g. Software Engineer",
+    position: "Current position of student 3",
     email: "student3@example.com",
     linkedin: "https://www.linkedin.com/in/your-student-3",
-    photo: "",
+    photo: "students/student3.jpg",
     taught: "Bioinformatics analysis and machine learning",
     period: "2022 to 2023",
-    comment: "SAMPLE: replace with the student's own comment about working with you."
+    comment: "SAMPLE: replace with student 3's own comment about working with you."
+  },
+  {
+    name: "Student Name 4",
+    university: "Chosun University, South Korea",
+    position: "Current position of student 4",
+    email: "student4@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-4",
+    photo: "students/student4.jpg",
+    taught: "Literature review and research methodology",
+    period: "2023",
+    comment: "SAMPLE: replace with student 4's own comment about working with you."
+  },
+  {
+    name: "Student Name 5",
+    university: "Prime University, Bangladesh",
+    position: "Current position of student 5",
+    email: "student5@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-5",
+    photo: "students/student5.jpg",
+    taught: "Fine-grained image recognition experiments",
+    period: "2025",
+    comment: "SAMPLE: replace with student 5's own comment about working with you."
+  },
+  {
+    name: "Student Name 6",
+    university: "Chosun University, South Korea",
+    position: "Current position of student 6",
+    email: "student6@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-6",
+    photo: "students/student6.jpg",
+    taught: "Python and data analysis for research",
+    period: "2022",
+    comment: "SAMPLE: replace with student 6's own comment about working with you."
+  },
+  {
+    name: "Student Name 7",
+    university: "Prime University, Bangladesh",
+    position: "Current position of student 7",
+    email: "student7@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-7",
+    photo: "students/student7.jpg",
+    taught: "Explainable AI and model visualization",
+    period: "2024",
+    comment: "SAMPLE: replace with student 7's own comment about working with you."
   },
 ];
 
 /* Optional numbers shown above the cards. Leave as null to hide. */
-const STUDENTS_MENTORED = null;     // e.g. 6
+const STUDENTS_MENTORED = 7;        // number shown above the cards
 const COAUTHORED_PAPERS = null;     // e.g. 3
 
 /* =====================================================================
