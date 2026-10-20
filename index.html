@@ -314,6 +314,16 @@
     .btn, .tab, .chip, section:not(#contact), .hero, .contact { box-shadow: 0 6px 18px rgba(0,0,0,.45); }
   }
 
+  /* ================= Separate pages ================= */
+  main { min-height: calc(100vh - 160px); }
+  .page-hidden { display: none !important; }
+  .page-in { animation: pageIn .45s ease both; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  nav ul { gap: 18px; }
+  nav ul a.active { color: var(--accent-2); }
+  nav ul a.active::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) { .page-in { animation: none; } }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -328,7 +338,9 @@
   }
 
   @media (max-width: 860px) {
-    nav ul { display: none; }
+    nav .wrap { height: auto; flex-direction: column; align-items: flex-start; padding-top: 10px; padding-bottom: 8px; gap: 6px; }
+    nav ul { width: 100%; overflow-x: auto; white-space: nowrap; gap: 16px; padding-bottom: 8px; scrollbar-width: none; }
+    nav ul::-webkit-scrollbar { display: none; }
     .hero { grid-template-columns: 1fr; padding-top: 40px; gap: 32px; }
     .profile-card { order: -1; }
     h1 { font-size: 38px; }
@@ -346,13 +358,15 @@
 
 <nav>
   <div class="wrap">
-    <a class="brand" href="#">Md Al Amin<span>.</span></a>
-    <ul>
+    <a class="brand" href="#home">Md Al Amin<span>.</span></a>
+    <ul id="menu">
+      <li><a href="#home">Home</a></li>
       <li><a href="#research">Research</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#teaching">Teaching</a></li>
       <li><a href="#publications">Publications</a></li>
       <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -361,7 +375,7 @@
 <main class="wrap">
 
   <!-- ================= HERO ================= -->
-  <header class="hero">
+  <header class="hero" id="home">
     <div>
       <span class="eyebrow">Open to PhD opportunities</span>
       <h1>Md Al Amin</h1>
@@ -700,6 +714,37 @@ document.getElementById("sort").addEventListener("click", e => {
 });
 renderPubs();
 document.getElementById("yr").textContent = new Date().getFullYear();
+
+/* ---------- Separate pages: each menu item shows only its own page ---------- */
+const PAGES = {
+  home:         ["home", "contact"],
+  research:     ["research"],
+  experience:   ["experience"],
+  teaching:     ["teaching"],
+  publications: ["publications"],
+  education:    ["education"],
+  projects:     ["more"],
+  contact:      ["contact"]
+};
+const ALL_BLOCKS = [...new Set(Object.values(PAGES).flat())];
+function showPage() {
+  const key = PAGES[location.hash.slice(1)] ? location.hash.slice(1) : "home";
+  const visible = PAGES[key];
+  ALL_BLOCKS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const on = visible.includes(id);
+    el.classList.toggle("page-hidden", !on);
+    el.classList.remove("page-in");
+    if (on) { void el.offsetWidth; el.classList.add("page-in"); }
+  });
+  document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + key));
+  document.title = key === "home" ? "Md Al Amin | Computer Vision Researcher"
+    : "Md Al Amin | " + document.querySelector(`#menu a[href="#${key}"]`).textContent;
+  window.scrollTo({ top: 0 });
+}
+window.addEventListener("hashchange", showPage);
+showPage();
 </script>
 </body>
 </html>
