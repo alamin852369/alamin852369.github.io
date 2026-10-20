@@ -570,7 +570,7 @@
 
   #explore { --sec: #2563eb; --sec-soft: #eaf1fe; }
   @media (prefers-color-scheme: dark) { #explore { --sec: #93c5fd; --sec-soft: #121c2e; } }
-  /* ================= Only the Home page moves; every other page stays still ================= */
+  /* ================= Whole site stays still (hover zoom and number count-up remain) ================= */
   body.still main *, body.still main *::before, body.still main *::after,
   body.still nav ul a { animation: none !important; }
   body.still .reveal { opacity: 1 !important; scale: 1 !important; }
@@ -1069,7 +1069,7 @@ function showPage() {
     if (on) { void el.offsetWidth; el.classList.add("page-in"); }
   });
   document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + key));
-  document.body.classList.toggle("still", key !== "home");
+  document.body.classList.add("still");
   // Mark the Explore tile for the page you are on
   document.querySelectorAll(".tile").forEach(t => {
     const here = t.getAttribute("href") === "#" + key;
