@@ -90,7 +90,8 @@
   .chip { padding: 7px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; font-weight: 500; }
 
   /* Featured research */
-  .featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+  .featured { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+  .feat .status { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: var(--warm-soft); color: var(--accent-2); margin-left: 4px; }
   .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
   .feat .kind { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-2); }
   .feat h3 { font-size: 17px; line-height: 1.35; margin: 8px 0 10px; }
@@ -287,6 +288,12 @@
     </div>
 
     <div class="featured">
+      <article class="feat">
+        <span class="kind">Network design</span>
+        <h3>MCL: Meta Convolution Layer</h3>
+        <p>A meta convolution layer built around a meta-block, proposed as a new building block for convolutional neural networks.</p>
+        <span class="venue">IEEE Access, 2026 <span class="status">Under Review</span></span>
+      </article>
       <article class="feat">
         <span class="kind">Survey</span>
         <h3>Fine-Grained Visual Classification: A Survey of Methods, Architectures, and Emerging Trends</h3>
