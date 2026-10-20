@@ -471,13 +471,109 @@
   @keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
   /* Things rise into view as you scroll */
-  .reveal { opacity: 0; }
-  .reveal.in { animation: riseIn .7s cubic-bezier(.2,.7,.2,1) both; }
-  @keyframes riseIn { from { opacity: 0; transform: translateY(34px) scale(.97); } to { opacity: 1; transform: none; } }
+  .reveal { opacity: 0; scale: .92; }
+  .reveal.in { opacity: 1; scale: 1; transition: opacity .7s ease, scale .7s cubic-bezier(.2,.7,.2,1) !important; }
+
+  /* ---------- Everything gently moving ---------- */
+  /* Cards softly float up and down (uses `translate`, so hover zoom still works) */
+  .feat, .tile, .edu, .tl-item, #more .two > div, .mentee, .profile-card { animation: drift 6s ease-in-out infinite; }
+  @keyframes drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+  .featured > :nth-child(2), .tiles > :nth-child(2), .edu-grid > :nth-child(2), .timeline > :nth-child(2), .two > :nth-child(2) { animation-delay: -1.5s; }
+  .featured > :nth-child(3), .tiles > :nth-child(3) { animation-delay: -3s; }
+  .featured > :nth-child(4), .tiles > :nth-child(4) { animation-delay: -4.5s; }
+  .tiles > :nth-child(5) { animation-delay: -2.2s; } .tiles > :nth-child(6) { animation-delay: -3.7s; }
+  .tile.current { animation: hereGlow 2.4s ease-in-out infinite, drift 6s ease-in-out infinite; }
+
+  /* A soft light sweeps across the cards */
+  .feat, .tile { overflow: hidden; }
+  .feat::after, .tile::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.35) 50%, transparent 65%);
+    transform: translateX(-130%); animation: shimmer 7s ease-in-out infinite;
+  }
+  @media (prefers-color-scheme: dark) { .feat::after, .tile::after { background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.08) 50%, transparent 65%); } }
+  .featured > :nth-child(2)::after, .tiles > :nth-child(2)::after { animation-delay: .9s; }
+  .featured > :nth-child(3)::after, .tiles > :nth-child(3)::after { animation-delay: 1.8s; }
+  .featured > :nth-child(4)::after, .tiles > :nth-child(4)::after { animation-delay: 2.7s; }
+  .tiles > :nth-child(5)::after { animation-delay: 3.6s; } .tiles > :nth-child(6)::after { animation-delay: 4.5s; }
+  @keyframes shimmer { 0%, 55% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
+
+  /* Colour flows along the top edge of paper and explore cards */
+  .feat { border-top: 1px solid var(--line); }
+  .feat::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, var(--sec), #8b5cf6, var(--accent-2), var(--sec)); background-size: 300% 100%;
+    animation: flow 6s linear infinite;
+  }
+  .tile { border-top: 1px solid var(--line); }
+  .tile { background-image: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 35%, #fff), var(--c)); background-size: 300% 5px; background-repeat: repeat-x; background-position: 0 0; animation-name: drift, flowTop; animation-duration: 6s, 5s; animation-timing-function: ease-in-out, linear; animation-iteration-count: infinite, infinite; }
+  .tile.current { animation-name: hereGlow, drift, flowTop; animation-duration: 2.4s, 6s, 5s; animation-timing-function: ease-in-out, ease-in-out, linear; animation-iteration-count: infinite, infinite, infinite; }
+  @keyframes flow { from { background-position: 0% 0; } to { background-position: 300% 0; } }
+  @keyframes flowTop { from { background-position: 0% 0; } to { background-position: 300% 0; } }
+
+  /* Research chips bob, each at its own pace */
+  .chip { animation: chipBob 4s ease-in-out infinite; }
+  .chip:nth-child(2n) { animation-delay: -1s; } .chip:nth-child(3n) { animation-delay: -2s; } .chip:nth-child(5n) { animation-delay: -3s; }
+  @keyframes chipBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -4px; } }
+
+  /* Little details that keep moving */
+  .feat .read { animation: nudge 2.2s ease-in-out infinite; }
+  @keyframes nudge { 0%, 100% { translate: 0 0; } 50% { translate: 5px 0; } }
+  .tl-item::before { animation: dotPulse 2.4s ease-in-out infinite; }
+  @keyframes dotPulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sec) 45%, transparent); } 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--sec) 0%, transparent); } }
+  nav ul a.active { animation: navGlow 2.6s ease-in-out infinite; }
+  @keyframes navGlow { 0%, 100% { box-shadow: 0 6px 14px rgba(15,76,92,.25); } 50% { box-shadow: 0 8px 24px rgba(15,76,92,.5), 0 0 0 4px rgba(15,76,92,.12); } }
+  .btn.solid { background-image: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.35) 50%, transparent 60%); background-size: 260% 100%; animation: btnShine 3.5s ease-in-out infinite; }
+  @keyframes btnShine { 0%, 50% { background-position: 130% 0; } 100% { background-position: -30% 0; } }
+  .metric b { animation: numGlow 3s ease-in-out infinite; }
+  @keyframes numGlow { 0%, 100% { text-shadow: none; } 50% { text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent); } }
+  .contact { background-image: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.08) 50%, rgba(255,255,255,0) 100%); background-size: 250% 100%; animation: contactSheen 8s ease-in-out infinite alternate; }
+  @keyframes contactSheen { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+
+  /* ---------- Extra life ---------- */
+  /* Floating colored particles behind the whole site */
+  #bgfx { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  nav, main, footer { position: relative; z-index: 1; }
+  nav { z-index: 20; position: sticky; }
+
+  /* Soft light that follows the mouse */
+  #glow { position: fixed; width: 420px; height: 420px; border-radius: 50%; pointer-events: none; z-index: 0;
+    background: radial-gradient(circle, rgba(139,92,246,.16) 0%, rgba(20,184,166,.10) 40%, transparent 70%);
+    transform: translate(-50%,-50%); transition: opacity .4s ease; opacity: 0; }
+
+  /* Name color keeps flowing */
+  .hero h1 { background-size: 250% 100% !important; animation: nameFlow 6s ease-in-out infinite alternate; }
+  @keyframes nameFlow { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+
+  /* Tagline typing cursor */
+  .tagline .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent-2); margin-left: 3px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Section titles: letters gently wave */
+  section h2 .w { display: inline-block; animation: wave 3.2s ease-in-out infinite; }
+  @keyframes wave { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
+
+  /* 3D tilt on cards (driven by script) */
+  .tilt { transform-style: preserve-3d; will-change: transform; }
+
+  /* Ripple when clicking buttons and cards */
+  .ripple { position: absolute; border-radius: 50%; pointer-events: none; background: rgba(255,255,255,.55); transform: scale(0); animation: rip .7s ease-out forwards; }
+  @keyframes rip { to { transform: scale(4); opacity: 0; } }
+
+  /* Section panels breathe softly */
+  section:not(#contact) { animation: breathe 7s ease-in-out infinite; }
+  @keyframes breathe { 0%, 100% { box-shadow: 0 10px 28px color-mix(in srgb, var(--sec) 10%, transparent); } 50% { box-shadow: 0 16px 42px color-mix(in srgb, var(--sec) 22%, transparent); } }
+
+  /* Scroll progress bar under the menu */
+  #progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, #14b8a6, #8b5cf6, #ec4899); border-radius: 0 3px 3px 0; }
 
   @media (prefers-reduced-motion: reduce) {
+    #bgfx, #glow { display: none; }
+    .hero h1, .tagline .caret, section h2 .w, section:not(#contact) { animation: none !important; }
+    .feat, .tile, .edu, .tl-item, #more .two > div, .mentee, .profile-card, .chip, .feat .read, .tl-item::before,
+    nav ul a.active, .btn.solid, .metric b, .contact, .feat::before, .feat::after, .tile::after { animation: none !important; }
     .hero, .hero::before, .hero::after, .avatar, .avatar-fb, .tile .ico, section h2::before { animation: none !important; }
-    .reveal { opacity: 1; } .reveal.in { animation: none; }
+    .reveal { opacity: 1; scale: 1; }
   }
 
   /* Keep hero buttons on one row on desktop */
@@ -1007,10 +1103,10 @@ const io = ("IntersectionObserver" in window) ? new IntersectionObserver(entries
     if (!e.isIntersecting) return;
     const el = e.target;
     const sibs = [...el.parentElement.children];
-    el.style.animationDelay = Math.min(sibs.indexOf(el), 8) * 0.08 + "s";
+    el.style.transitionDelay = Math.min(sibs.indexOf(el), 8) * 0.08 + "s";
     el.classList.add("in");
     io.unobserve(el);
-    el.addEventListener("animationend", () => { el.classList.remove("reveal", "in"); el.style.animationDelay = ""; }, { once: true });
+    setTimeout(() => { el.classList.remove("reveal", "in"); el.style.transitionDelay = ""; }, 1500);
   });
 }, { threshold: 0.12 }) : null;
 function armReveal() {
@@ -1029,6 +1125,84 @@ function countUp() {
   });
 }
 window.addEventListener("hashchange", () => setTimeout(armReveal, 30));
+
+/* ---------- Extra life (skipped when the visitor prefers less motion) ---------- */
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const fine = matchMedia("(pointer: fine)").matches;
+
+  // Floating particles
+  const cv = document.createElement("canvas"); cv.id = "bgfx"; document.body.prepend(cv);
+  const ctx = cv.getContext("2d"); let W, H, dots = [];
+  const cols = ["20,184,166", "139,92,246", "236,72,153", "59,130,246", "245,158,11"];
+  function size() {
+    W = cv.width = innerWidth; H = cv.height = innerHeight;
+    const n = Math.round(Math.min(60, W * H / 26000));
+    dots = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 2 + Math.random() * 5,
+      vx: (Math.random() - .5) * .35, vy: -.15 - Math.random() * .35, c: cols[Math.floor(Math.random() * cols.length)], a: .15 + Math.random() * .3 }));
+  }
+  size(); addEventListener("resize", size);
+  (function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const d of dots) {
+      d.x += d.vx; d.y += d.vy;
+      if (d.y < -10) { d.y = H + 10; d.x = Math.random() * W; }
+      if (d.x < -10) d.x = W + 10; if (d.x > W + 10) d.x = -10;
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${d.c},${d.a})`; ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  // Glow following the mouse
+  if (fine) {
+    const g = document.createElement("div"); g.id = "glow"; document.body.prepend(g);
+    addEventListener("mousemove", e => { g.style.left = e.clientX + "px"; g.style.top = e.clientY + "px"; g.style.opacity = 1; });
+    document.addEventListener("mouseleave", () => g.style.opacity = 0);
+  }
+
+  // Typing effect on the tagline
+  const tg = document.querySelector(".tagline");
+  if (tg) {
+    const full = tg.textContent.trim(); tg.textContent = ""; const caret = document.createElement("span"); caret.className = "caret";
+    const txt = document.createTextNode(""); tg.append(txt, caret); let i = 0;
+    (function type() { if (i <= full.length) { txt.data = full.slice(0, i++); setTimeout(type, 28); } })();
+  }
+
+  // Wave letters in section titles
+  document.querySelectorAll("section h2").forEach(h => {
+    if (h.closest("#contact")) return;
+    const t = h.textContent; h.textContent = "";
+    [...t].forEach((ch, k) => { const s = document.createElement("span"); s.className = "w"; s.textContent = ch === " " ? " " : ch; s.style.animationDelay = (k * 0.06) + "s"; h.append(s); });
+  });
+
+  // 3D tilt following the mouse
+  if (fine) {
+    document.querySelectorAll(".feat, .tile, .edu, .profile-card").forEach(el => {
+      el.classList.add("tilt");
+      el.addEventListener("mousemove", e => {
+        const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.style.transform = `perspective(800px) rotateX(${-y * 10}deg) rotateY(${x * 12}deg) translateY(-10px) scale(1.04)`;
+      });
+      el.addEventListener("mouseleave", () => { el.style.transform = ""; });
+    });
+  }
+
+  // Ripple on click
+  document.addEventListener("pointerdown", e => {
+    const el = e.target.closest(".btn, .tile, .feat, nav ul a, .pager a, .tab");
+    if (!el) return;
+    const r = el.getBoundingClientRect(), s = Math.max(r.width, r.height), rp = document.createElement("span");
+    rp.className = "ripple"; rp.style.width = rp.style.height = s + "px";
+    rp.style.left = (e.clientX - r.left - s / 2) + "px"; rp.style.top = (e.clientY - r.top - s / 2) + "px";
+    if (getComputedStyle(el).position === "static") el.style.position = "relative";
+    el.style.overflow = "hidden"; el.append(rp); setTimeout(() => rp.remove(), 750);
+  });
+
+  // Scroll progress bar
+  const bar = document.createElement("div"); bar.id = "progress"; document.querySelector("nav").append(bar);
+  const upd = () => { const h = document.documentElement.scrollHeight - innerHeight; bar.style.width = (h > 0 ? scrollY / h * 100 : 0) + "%"; };
+  addEventListener("scroll", upd, { passive: true }); addEventListener("hashchange", () => setTimeout(upd, 60)); upd();
+})();
 window.addEventListener("load", countUp);
 
 window.addEventListener("hashchange", showPage);
