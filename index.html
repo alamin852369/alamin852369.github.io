@@ -91,6 +91,10 @@
 
   /* Featured research */
   .featured { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+  a.feat { color: var(--ink); text-decoration: none; cursor: pointer; }
+  a.feat:hover { text-decoration: none; }
+  .feat .read { margin-top: 12px; font-size: 13px; font-weight: 600; color: var(--sec); transition: transform .22s ease; display: inline-block; }
+  a.feat:hover .read { transform: translateX(6px); }
   .feat .status { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: var(--warm-soft); color: var(--accent-2); margin-left: 4px; }
   .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
   .feat .kind { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-2); }
@@ -245,6 +249,61 @@
   #more .two > div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; }
   .list .k { color: var(--sec); }
 
+  /* ================= Hover effects ================= */
+  .btn, .chip, .feat, .tl-item, .mentee, .mstat, .edu, .pub, .list li,
+  #more .two > div, .tab, .profile-card, .contact .btn {
+    transition: transform .22s ease, box-shadow .22s ease, background-color .22s ease,
+                border-color .22s ease, color .22s ease;
+  }
+  /* Buttons */
+  .btn:hover { transform: translateY(-5px) scale(1.08); box-shadow: 0 12px 26px rgba(15,76,92,.35); background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.solid:hover { background: var(--accent-2); border-color: var(--accent-2); box-shadow: 0 12px 26px rgba(200,85,61,.4); }
+  .contact .btn:hover { background: #fff; color: var(--accent); transform: translateY(-5px) scale(1.08); }
+  /* Chips fill with the section color */
+  .chip:hover { background: var(--sec); color: #fff; border-color: var(--sec); transform: translateY(-4px) scale(1.1); box-shadow: 0 8px 18px color-mix(in srgb, var(--sec) 40%, transparent); }
+  /* Cards zoom, lift high and fill with the section color */
+  .feat, .tl-item, .mentee, .mstat, .edu, #more .two > div, .profile-card { position: relative; }
+  .feat:hover, .tl-item:hover, .mentee:hover, .mstat:hover, .edu:hover, #more .two > div:hover, .profile-card:hover {
+    transform: translateY(-12px) scale(1.04);
+    z-index: 2;
+    border-color: var(--sec);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--sec) 18%, var(--surface)) 0%, var(--surface) 75%);
+    box-shadow: 0 24px 48px color-mix(in srgb, var(--sec) 38%, transparent);
+  }
+  .feat:hover h3, .edu:hover h3, .tl-item:hover .tl-role, .mentee:hover .mentee-name { color: var(--sec); }
+  .feat:hover .kind, .edu:hover .when { letter-spacing: .1em; }
+  /* Publication rows and list items highlight */
+  .pub { border-radius: 12px; padding: 18px 12px; }
+  .pub:hover { background: color-mix(in srgb, var(--sec) 16%, transparent); transform: translateX(10px) scale(1.015); box-shadow: inset 4px 0 0 var(--sec); }
+  .pub:hover .title { color: var(--sec); }
+  .list li { border-radius: 8px; padding-left: 8px; padding-right: 8px; }
+  .list li:hover { color: var(--sec); background: color-mix(in srgb, var(--sec) 12%, transparent); transform: translateX(10px) scale(1.02); }
+  .tab:hover { border-color: var(--sec); color: var(--sec); transform: translateY(-3px) scale(1.06); }
+  .tab.active:hover { color: #fff; }
+  nav ul a { position: relative; }
+  nav ul a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--accent-2); transform: scaleX(0); transition: transform .22s ease; }
+  nav ul a:hover::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    .btn:hover, .chip:hover, .feat:hover, .tl-item:hover, .mentee:hover, .mstat:hover, .edu:hover,
+    .pub:hover, .list li:hover, #more .two > div:hover, .tab:hover, .profile-card:hover { transform: none; }
+  }
+
+  /* ================= Resting shadows under every box ================= */
+  .feat, .tl-item, .mentee, .mstat, .edu, #more .two > div, .pubs, .profile-card {
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--sec) 16%, transparent),
+                0 2px 4px rgba(16,24,40,.06);
+  }
+  .btn, .tab { box-shadow: 0 3px 8px rgba(16,24,40,.10); }
+  .chip { box-shadow: 0 3px 8px color-mix(in srgb, var(--sec) 18%, transparent); }
+  section:not(#contact) { box-shadow: 0 10px 28px color-mix(in srgb, var(--sec) 12%, transparent); }
+  .hero { box-shadow: 0 12px 32px rgba(15,76,92,.10); }
+  .contact { box-shadow: 0 14px 34px rgba(15,76,92,.28); }
+  @media (prefers-color-scheme: dark) {
+    .feat, .tl-item, .mentee, .mstat, .edu, #more .two > div, .pubs, .profile-card,
+    .btn, .tab, .chip, section:not(#contact), .hero, .contact { box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+  }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -354,30 +413,34 @@
     </div>
 
     <div class="featured">
-      <article class="feat">
+      <a class="feat" href="https://arxiv.org/html/2610.11117v1" target="_blank" rel="noopener">
         <span class="kind">Network design</span>
         <h3>MCL: Meta Convolution Layer</h3>
         <p>A meta convolution layer built around a meta-block, proposed as a new building block for convolutional neural networks.</p>
-        <span class="venue">IEEE Access, 2026 <span class="status">Under Review</span></span>
-      </article>
-      <article class="feat">
+        <span class="venue">arXiv preprint, 2026</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+      <a class="feat" href="https://doi.org/10.1109/ACCESS.2026.3681899" target="_blank" rel="noopener">
         <span class="kind">Survey</span>
         <h3>Fine-Grained Visual Classification: A Survey of Methods, Architectures, and Emerging Trends</h3>
         <p>A survey of methods, architectures and emerging trends in fine-grained visual classification.</p>
-        <span class="venue">IEEE Access, 2026 &middot; <a href="https://doi.org/10.1109/ACCESS.2026.3681899" target="_blank" rel="noopener">DOI</a></span>
-      </article>
-      <article class="feat">
+        <span class="venue">IEEE Access, 2026</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+      <a class="feat" href="https://doi.org/10.1109/ACCESS.2025.3635173" target="_blank" rel="noopener">
         <span class="kind">Fine-grained recognition</span>
         <h3>Localized Feature Enhancement via Patch-Wise Learning for Fine-Grained Image Classification</h3>
         <p>Patch-wise learning to enhance localized features for fine-grained image classification.</p>
-        <span class="venue">IEEE Access, 2025 &middot; <a href="https://doi.org/10.1109/ACCESS.2025.3635173" target="_blank" rel="noopener">DOI</a></span>
-      </article>
-      <article class="feat">
+        <span class="venue">IEEE Access, 2025</span>
+        <span class="read">Read paper &rarr;</span>
+      </a>
+      <a class="feat" href="https://doi.org/10.3390/electronics14091823" target="_blank" rel="noopener">
         <span class="kind">Biometric security</span>
         <h3>Lightweight Network for Spoof Fingerprint Detection by Attention-Aggregated Receptive Field-Wise Feature</h3>
-        <p>A lightweight network that aggregates receptive field-wise features with attention for spoof fingerprint detection.</p>
+        <p>A lightweight network with only 0.14M parameters for spoof fingerprint detection, evaluated on LivDet-2015 and LivDet-2017.</p>
         <span class="venue">Electronics, 2025</span>
-      </article>
+        <span class="read">Read paper &rarr;</span>
+      </a>
     </div>
   </section>
 
@@ -394,7 +457,7 @@
         <ul>
           <li>Research on localized receptive field-wise image feature learning (M.Sc. thesis).</li>
           <li>First-authored work on fine-grained image classification and spoof fingerprint detection in IEEE Access and Electronics.</li>
-          <li>Co-developed the Meta Convolution Layer (MCL), currently under review at IEEE Access.</li>
+          <li>Co-developed the Meta Convolution Layer (MCL), available as an arXiv preprint.</li>
         </ul>
       </div>
       <div class="tl-item">
@@ -540,10 +603,10 @@ const COAUTHORED_PAPERS = null;     // e.g. 3
    type: "journal" | "conference" | "book"
    ===================================================================== */
 const PUBS = [
-  { y: 2026, type: "journal", title: "MCL: Meta Convolution Layer", authors: "N. Reza, M. Al Amin, H. Y. Jung", venue: "IEEE Access", status: "Under Review", cites: null },
+  { y: 2026, type: "journal", title: "MCL: Meta Convolution Layer", authors: "N. Reza, M. Al Amin, H. Y. Jung", venue: "arXiv preprint", link: "https://arxiv.org/html/2610.11117v1", linkLabel: "arXiv", cites: null },
   { y: 2026, type: "journal", title: "Fine-Grained Visual Classification: A Survey of Methods, Architectures, and Emerging Trends", authors: "M. Al Amin, H. Y. Jung", venue: "IEEE Access", q: "Q1", doi: "10.1109/ACCESS.2026.3681899", cites: null },
   { y: 2025, type: "journal", title: "Localized Feature Enhancement via Patch-Wise Learning for Fine-Grained Image Classification", authors: "M. Al Amin, N. Reza, H. Y. Jung", venue: "IEEE Access, vol. 13, pp. 198054 to 198064", q: "Q1", doi: "10.1109/ACCESS.2025.3635173", cites: null },
-  { y: 2025, type: "journal", title: "Lightweight Network for Spoof Fingerprint Detection by Attention-Aggregated Receptive Field-Wise Feature", authors: "M. Al Amin, N. Reza, H. Y. Jung", venue: "Electronics, vol. 14, no. 9, p. 1823", q: "Q2", cites: null },
+  { y: 2025, type: "journal", title: "Lightweight Network for Spoof Fingerprint Detection by Attention-Aggregated Receptive Field-Wise Feature", authors: "M. Al Amin, N. Reza, H. Y. Jung", venue: "Electronics, vol. 14, no. 9, p. 1823", q: "Q2", doi: "10.3390/electronics14091823", cites: null },
   { y: 2024, type: "journal", title: "High Throughput Biological Sequence Analysis Using Machine Learning-Based Integrative Pipeline for Extracting Functional Annotation and Visualization", authors: "M. Al Amin et al.", venue: "F1000Research, vol. 13, p. 161", cites: null },
   { y: 2024, type: "journal", title: "Advances of AI in Image-Based Computer-Aided Diagnosis: A Review", authors: "M. N. Yeasmin, M. Al Amin, T. J. Joti, Z. Aung, M. A. Azim", venue: "Array, vol. 23, p. 100357", q: "Q1", cites: 113 },
   { y: 2023, type: "journal", title: "Gender Differences-Based Bioinformatics Analysis to Identify Hub Genes and Key Pathways in Type 2 Diabetes", authors: "M. S. Hossain et al.", venue: "Informatics in Medicine Unlocked, vol. 40, p. 101302", cites: null },
@@ -600,7 +663,8 @@ function renderPubs() {
     const tags = [
       p.status ? `<span class="tag warn">${esc(p.status)}</span>` : "",
       p.q ? `<span class="tag">${esc(p.q)}</span>` : "",
-      p.doi ? `<span class="tag"><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a></span>` : ""
+      p.doi ? `<span class="tag"><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a></span>` : "",
+      p.link ? `<span class="tag"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.linkLabel || "Link")}</a></span>` : ""
     ].join("");
     const cites = p.cites ? `<div class="cites"><b>${p.cites}</b><span>citations</span></div>` : `<div class="cites"></div>`;
     return `<li class="pub"><div class="year">${p.y}</div><div>
