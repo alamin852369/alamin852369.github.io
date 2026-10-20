@@ -379,6 +379,22 @@
   .pager a:hover small { color: rgba(255,255,255,.8); }
   .pager .next { margin-left: auto; text-align: right; }
 
+  /* ================= Wider layout for big screens ================= */
+  .wrap { max-width: 1340px; padding-left: 32px; padding-right: 32px; }
+  @media (min-width: 1200px) {
+    body { font-size: 17px; }
+    .hero { grid-template-columns: 1fr 340px !important; gap: 56px !important; padding: 60px 64px !important; }
+    .avatar, .avatar-fb { width: 180px; height: 180px; }
+    .avatar-fb { font-size: 58px; }
+    .hero .tagline { font-size: 21px; max-width: none; }
+    section:not(#contact) { padding: 48px 56px 54px; }
+    .featured { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .tiles { gap: 22px; }
+    .feat h3 { font-size: 17px; }
+    .contact { padding: 48px 56px; }
+  }
+  @media (max-width: 860px) { .wrap { padding-left: 16px; padding-right: 16px; } }
+
   /* ================= Home page polish ================= */
   #latest { --sec: #0f4c5c; --sec-soft: #ffffff; }
   @media (prefers-color-scheme: dark) { #latest { --sec: #6fc3d2; --sec-soft: #171a1f; } }
