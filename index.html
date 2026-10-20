@@ -283,6 +283,16 @@
   nav ul a { position: relative; }
   nav ul a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--accent-2); transform: scaleX(0); transition: transform .22s ease; }
   nav ul a:hover::after { transform: scaleX(1); }
+
+  /* Paper links in the publication list */
+  .pub .title a { color: inherit; text-decoration: none; }
+  .pub .title a::after { content: " \2197"; font-size: 13px; opacity: 0; transition: opacity .2s ease; }
+  .pub:hover .title a::after { opacity: 1; }
+  .tag a:hover { text-decoration: none; }
+  .tag.link { transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+  .tag.link:hover { background: var(--sec); color: #fff; transform: scale(1.08); }
+  @media (prefers-color-scheme: dark) { .tag.link:hover { color: #111; } }
+
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
     .btn:hover, .chip:hover, .feat:hover, .tl-item:hover, .mentee:hover, .mstat:hover, .edu:hover,
@@ -490,7 +500,7 @@
     <div class="sec-head">
       <div>
         <h2>Publications</h2>
-        <p class="sec-sub">Citation counts from <a href="https://scholar.google.com/citations?user=AnmXXgoAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>, October 2026.</p>
+        <p class="sec-sub">Citation counts from <a href="https://scholar.google.com/citations?user=AnmXXgoAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>, October 2026. Click any title to read the paper.</p>
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <div class="tabs" id="tabs">
@@ -601,6 +611,7 @@ const COAUTHORED_PAPERS = null;     // e.g. 3
 /* =====================================================================
    Publications. cites = Google Scholar citation count (null if not shown).
    type: "journal" | "conference" | "book"
+   Every paper gets a Google Scholar link automatically.
    ===================================================================== */
 const PUBS = [
   { y: 2026, type: "journal", title: "MCL: Meta Convolution Layer", authors: "N. Reza, M. Al Amin, H. Y. Jung", venue: "arXiv preprint", link: "https://arxiv.org/html/2610.11117v1", linkLabel: "arXiv", cites: null },
@@ -660,15 +671,18 @@ function renderPubs() {
   let items = PUBS.filter(p => filter === "all" || p.type === filter);
   items = items.slice().sort((a, b) => sortBy === "year" ? b.y - a.y : (b.cites || 0) - (a.cites || 0));
   listEl.innerHTML = items.map(p => {
+    const scholar = "https://scholar.google.com/scholar?q=" + encodeURIComponent('"' + p.title + '"');
+    const main = p.link || (p.doi ? "https://doi.org/" + p.doi : scholar);
     const tags = [
       p.status ? `<span class="tag warn">${esc(p.status)}</span>` : "",
       p.q ? `<span class="tag">${esc(p.q)}</span>` : "",
-      p.doi ? `<span class="tag"><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a></span>` : "",
-      p.link ? `<span class="tag"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.linkLabel || "Link")}</a></span>` : ""
+      p.doi ? `<span class="tag link"><a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a></span>` : "",
+      p.link ? `<span class="tag link"><a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.linkLabel || "Link")}</a></span>` : "",
+      `<span class="tag link"><a href="${esc(scholar)}" target="_blank" rel="noopener">Google Scholar</a></span>`
     ].join("");
     const cites = p.cites ? `<div class="cites"><b>${p.cites}</b><span>citations</span></div>` : `<div class="cites"></div>`;
     return `<li class="pub"><div class="year">${p.y}</div><div>
-      <p class="title">${esc(p.title)}</p>
+      <p class="title"><a href="${esc(main)}" target="_blank" rel="noopener">${esc(p.title)}</a></p>
       <p class="authors">${boldMe(p.authors)}</p>
       <p class="venue"><i>${esc(p.venue)}</i>${tags ? `<span class="tags">${tags}</span>` : ""}</p>
     </div>${cites}</li>`;
