@@ -531,30 +531,27 @@
   @keyframes contactSheen { from { background-position: 0% 0; } to { background-position: 100% 0; } }
 
   /* ---------- Extra life ---------- */
-  /* Floating colored particles behind the whole site */
-  #bgfx { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   nav, main, footer { position: relative; z-index: 1; }
   nav { z-index: 20; position: sticky; }
 
   /* Soft light that follows the mouse */
-  #glow { position: fixed; width: 420px; height: 420px; border-radius: 50%; pointer-events: none; z-index: 0;
-    background: radial-gradient(circle, rgba(139,92,246,.16) 0%, rgba(20,184,166,.10) 40%, transparent 70%);
-    transform: translate(-50%,-50%); transition: opacity .4s ease; opacity: 0; }
+  /* Glowing light that follows the cursor: bright core, warm red halo */
+  /* Classic PowerPoint laser pointer: plain red dot with a red glow */
+  #glow { position: fixed; width: 12px; height: 12px; border-radius: 50%; pointer-events: none; z-index: 9999;
+    background: #ff1a1a;
+    box-shadow: 0 0 6px 3px rgba(255,0,0,.6), 0 0 16px 6px rgba(255,0,0,.25);
+    transform: translate(-50%,-50%); transition: opacity .5s ease; opacity: 0; }
+  @media (prefers-color-scheme: light) { #glow { mix-blend-mode: normal; } }
 
   /* Name color keeps flowing */
   .hero h1 { background-size: 250% 100% !important; animation: nameFlow 6s ease-in-out infinite alternate; }
   @keyframes nameFlow { from { background-position: 0% 0; } to { background-position: 100% 0; } }
 
-  /* Tagline typing cursor */
-  .tagline .caret { display: inline-block; width: 2px; height: 1.1em; background: var(--accent-2); margin-left: 3px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
 
   /* Section titles: letters gently wave */
   section h2 .w { display: inline-block; animation: wave 3.2s ease-in-out infinite; }
   @keyframes wave { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 
-  /* 3D tilt on cards (driven by script) */
-  .tilt { transform-style: preserve-3d; will-change: transform; }
 
   /* Ripple when clicking buttons and cards */
   .ripple { position: absolute; border-radius: 50%; pointer-events: none; background: rgba(255,255,255,.55); transform: scale(0); animation: rip .7s ease-out forwards; }
@@ -564,11 +561,17 @@
   section:not(#contact) { animation: breathe 7s ease-in-out infinite; }
   @keyframes breathe { 0%, 100% { box-shadow: 0 10px 28px color-mix(in srgb, var(--sec) 10%, transparent); } 50% { box-shadow: 0 16px 42px color-mix(in srgb, var(--sec) 22%, transparent); } }
 
-  /* Scroll progress bar under the menu */
-  #progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: linear-gradient(90deg, #14b8a6, #8b5cf6, #ec4899); border-radius: 0 3px 3px 0; }
+
+  /* Hovered card or button stays still: it zooms and highlights but stops floating */
+  .feat:hover, .tile:hover, .edu:hover, .tl-item:hover, #more .two > div:hover, .mentee:hover, .profile-card:hover,
+  .chip:hover, .btn:hover, .pub:hover, nav ul a:hover {
+    animation-play-state: paused !important;
+  }
+  .feat:hover *, .feat:hover::before, .feat:hover::after, .tile:hover *, .tile:hover::after,
+  .edu:hover *, .tl-item:hover::before, .profile-card:hover * { animation-play-state: paused !important; }
 
   @media (prefers-reduced-motion: reduce) {
-    #bgfx, #glow { display: none; }
+    #glow { display: none; }
     .hero h1, .tagline .caret, section h2 .w, section:not(#contact) { animation: none !important; }
     .feat, .tile, .edu, .tl-item, #more .two > div, .mentee, .profile-card, .chip, .feat .read, .tl-item::before,
     nav ul a.active, .btn.solid, .metric b, .contact, .feat::before, .feat::after, .tile::after { animation: none !important; }
@@ -1131,61 +1134,33 @@ window.addEventListener("hashchange", () => setTimeout(armReveal, 30));
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const fine = matchMedia("(pointer: fine)").matches;
 
-  // Floating particles
-  const cv = document.createElement("canvas"); cv.id = "bgfx"; document.body.prepend(cv);
-  const ctx = cv.getContext("2d"); let W, H, dots = [];
-  const cols = ["20,184,166", "139,92,246", "236,72,153", "59,130,246", "245,158,11"];
-  function size() {
-    W = cv.width = innerWidth; H = cv.height = innerHeight;
-    const n = Math.round(Math.min(60, W * H / 26000));
-    dots = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 2 + Math.random() * 5,
-      vx: (Math.random() - .5) * .35, vy: -.15 - Math.random() * .35, c: cols[Math.floor(Math.random() * cols.length)], a: .15 + Math.random() * .3 }));
-  }
-  size(); addEventListener("resize", size);
-  (function draw() {
-    ctx.clearRect(0, 0, W, H);
-    for (const d of dots) {
-      d.x += d.vx; d.y += d.vy;
-      if (d.y < -10) { d.y = H + 10; d.x = Math.random() * W; }
-      if (d.x < -10) d.x = W + 10; if (d.x > W + 10) d.x = -10;
-      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(${d.c},${d.a})`; ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  })();
 
   // Glow following the mouse
   if (fine) {
     const g = document.createElement("div"); g.id = "glow"; document.body.prepend(g);
-    addEventListener("mousemove", e => { g.style.left = e.clientX + "px"; g.style.top = e.clientY + "px"; g.style.opacity = 1; });
+    let idle;
+    addEventListener("mousemove", e => {
+      g.style.left = e.clientX + "px"; g.style.top = e.clientY + "px"; g.style.opacity = 1;
+      clearTimeout(idle); idle = setTimeout(() => { g.style.opacity = 0; }, 5000);
+    });
     document.addEventListener("mouseleave", () => g.style.opacity = 0);
   }
 
   // Typing effect on the tagline
   const tg = document.querySelector(".tagline");
   if (tg) {
-    const full = tg.textContent.trim(); tg.textContent = ""; const caret = document.createElement("span"); caret.className = "caret";
-    const txt = document.createTextNode(""); tg.append(txt, caret); let i = 0;
+    const full = tg.textContent.trim(); tg.textContent = "";
+    const txt = document.createTextNode(""); tg.append(txt); let i = 0;
     (function type() { if (i <= full.length) { txt.data = full.slice(0, i++); setTimeout(type, 28); } })();
   }
 
   // Wave letters in section titles
   document.querySelectorAll("section h2").forEach(h => {
     if (h.closest("#contact")) return;
-    const t = h.textContent; h.textContent = "";
-    [...t].forEach((ch, k) => { const s = document.createElement("span"); s.className = "w"; s.textContent = ch === " " ? " " : ch; s.style.animationDelay = (k * 0.06) + "s"; h.append(s); });
+    const t = h.textContent; h.textContent = ""; const wrap = document.createElement("span"); h.append(wrap);
+    [...t].forEach((ch, k) => { const s = document.createElement("span"); s.className = "w"; s.textContent = ch === " " ? " " : ch; s.style.animationDelay = (k * 0.06) + "s"; wrap.append(s); });
   });
 
-  // 3D tilt following the mouse
-  if (fine) {
-    document.querySelectorAll(".feat, .tile, .edu, .profile-card").forEach(el => {
-      el.classList.add("tilt");
-      el.addEventListener("mousemove", e => {
-        const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        el.style.transform = `perspective(800px) rotateX(${-y * 10}deg) rotateY(${x * 12}deg) translateY(-10px) scale(1.04)`;
-      });
-      el.addEventListener("mouseleave", () => { el.style.transform = ""; });
-    });
-  }
 
   // Ripple on click
   document.addEventListener("pointerdown", e => {
@@ -1198,10 +1173,6 @@ window.addEventListener("hashchange", () => setTimeout(armReveal, 30));
     el.style.overflow = "hidden"; el.append(rp); setTimeout(() => rp.remove(), 750);
   });
 
-  // Scroll progress bar
-  const bar = document.createElement("div"); bar.id = "progress"; document.querySelector("nav").append(bar);
-  const upd = () => { const h = document.documentElement.scrollHeight - innerHeight; bar.style.width = (h > 0 ? scrollY / h * 100 : 0) + "%"; };
-  addEventListener("scroll", upd, { passive: true }); addEventListener("hashchange", () => setTimeout(upd, 60)); upd();
 })();
 window.addEventListener("load", countUp);
 
