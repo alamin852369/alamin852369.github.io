@@ -422,8 +422,10 @@
   .tile span:not(.ico) { min-height: 2.9em; }
   .tile em { margin-top: 4px; padding: 6px 16px; border-radius: 999px; background: color-mix(in srgb, var(--c) 12%, transparent); }
   .tile:hover em { transform: none; background: var(--c); color: #fff; }
-  .contact .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-  .contact .actions .btn:first-child { grid-column: 1 / -1; }
+  .contact .actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+  .contact .actions .btn { grid-column: span 2; }
+  .contact .actions .btn:nth-child(-n+2) { grid-column: span 3; }
+  @media (max-width: 520px) { .contact .actions { grid-template-columns: 1fr; } .contact .actions .btn, .contact .actions .btn:nth-child(-n+2) { grid-column: auto; } }
   .contact .btn { justify-content: center; text-align: center; white-space: nowrap; padding-left: 8px; padding-right: 8px; font-size: 13.5px; }
   @media (max-width: 860px) { .hero h1 { font-size: 40px; } .bio { text-align: left; } }
 
@@ -580,6 +582,21 @@
   body.still nav ul a { animation: none !important; }
   body.still .reveal { opacity: 1 !important; scale: 1 !important; }
 
+  /* Teaching cards: photo, current position, contact links */
+  .mentee blockquote { background: color-mix(in srgb, var(--sec) 8%, var(--surface)); border-left: 3px solid var(--sec); }
+  .mentee blockquote::before { color: var(--sec); }
+  .mentee-photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--sec); }
+  .mentee .initials { width: 64px; height: 64px; font-size: 20px; }
+  .mentee-now { margin: 2px 0 0; font-size: 14px; font-weight: 600; color: var(--sec); }
+  .mentee-links { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
+  .mentee-links a { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background: color-mix(in srgb, var(--sec) 10%, transparent); color: var(--sec); transition: background-color .2s, color .2s, transform .2s; }
+  .mentee-links a:hover { background: var(--sec); color: #fff; text-decoration: none; transform: translateY(-2px); }
+  .mentee-links svg { width: 14px; height: 14px; fill: currentColor; }
+  .mentees { grid-template-columns: repeat(3, 1fr) !important; }
+  @media (max-width: 1000px) { .mentees { grid-template-columns: 1fr 1fr !important; } }
+  @media (max-width: 640px) { .mentees { grid-template-columns: 1fr !important; } }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -643,7 +660,7 @@
         to pursue a PhD in explainable AI and cybersecurity.
       </p>
       <div class="actions">
-        <a class="btn solid" href="mailto:ahmedalamin@chosun.ac.kr">
+        <a class="btn solid" href="mailto:ahmedalamin2357@gmail.com">
           <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5v2.2z"/></svg>Email me</a>
         <a class="btn" href="https://scholar.google.com/citations?user=AnmXXgoAAAAJ&hl=en" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-6.8 9.4V16c0 2.2 3 4 6.8 4s6.8-1.8 6.8-4v-3.6L12 16l-6.8-3.6z"/></svg>Google Scholar</a>
@@ -913,6 +930,7 @@
         <p>I am open to PhD positions, research collaborations and conversations about computer vision and explainable AI.</p>
       </div>
       <div class="actions">
+        <a class="btn" href="mailto:ahmedalamin2357@gmail.com">ahmedalamin2357@gmail.com</a>
         <a class="btn" href="mailto:ahmedalamin@chosun.ac.kr">ahmedalamin@chosun.ac.kr</a>
         <a class="btn" href="https://scholar.google.com/citations?user=AnmXXgoAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
         <a class="btn" href="https://www.linkedin.com/in/md-al-amin-7359371b3/" target="_blank" rel="noopener">LinkedIn</a>
@@ -932,18 +950,54 @@
 <script>
 /* =====================================================================
    EDIT HERE: Teaching Experience
-   Add one object per student, copying the example below.
-   Use their real words, with their permission.
+   One block per student. Replace every SAMPLE value with real details,
+   and only publish a comment the student actually wrote and agreed to share.
 
-   {
-     name: "Student Name",
-     position: "B.Sc. student, Prime University",
-     taught: "Research paper writing, PyTorch",
-     period: "2024 to 2025",
-     comment: "Their comment about you, in their own words."
-   },
+   name        Full name
+   university  Where they studied when you guided them
+   position    What they do now (e.g. "PhD student, KAIST")
+   email       Their email (leave "" to hide)
+   linkedin    Full LinkedIn URL (leave "" to hide)
+   photo       Image file uploaded to the repo, e.g. "students/rahim.jpg"
+               (leave "" to show their initials instead)
+   taught      What you taught or guided them in
+   period      When
+   comment     Their own words about you
    ===================================================================== */
 const STUDENTS = [
+  {
+    name: "Student Name 1",
+    university: "Prime University, Bangladesh",
+    position: "Current position, e.g. M.Sc. student, Chosun University",
+    email: "student1@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-1",
+    photo: "",
+    taught: "Research paper writing, PyTorch basics",
+    period: "2024 to 2025",
+    comment: "SAMPLE: replace with the student's own comment about working with you."
+  },
+  {
+    name: "Student Name 2",
+    university: "Chosun University, South Korea",
+    position: "Current position, e.g. Research Assistant, Computer Vision Lab",
+    email: "student2@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-2",
+    photo: "",
+    taught: "Deep learning for image classification",
+    period: "2025",
+    comment: "SAMPLE: replace with the student's own comment about working with you."
+  },
+  {
+    name: "Student Name 3",
+    university: "Prime University, Bangladesh",
+    position: "Current position, e.g. Software Engineer",
+    email: "student3@example.com",
+    linkedin: "https://www.linkedin.com/in/your-student-3",
+    photo: "",
+    taught: "Bioinformatics analysis and machine learning",
+    period: "2022 to 2023",
+    comment: "SAMPLE: replace with the student's own comment about working with you."
+  },
 ];
 
 /* Optional numbers shown above the cards. Leave as null to hide. */
@@ -984,17 +1038,26 @@ const boldMe = a => esc(a).replace(/M\. Al Amin/g, "<b>M. Al Amin</b>");
 
 // Teaching Experience
 const initialsOf = n => n.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+const ICON_MAIL = '<svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5v2.2z"/></svg>';
+const ICON_IN = '<svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
 document.getElementById("mentee-list").innerHTML = STUDENTS.map(s => `
   <article class="mentee">
     <div class="mentee-head">
-      <div class="initials">${esc(initialsOf(s.name))}</div>
-      <div>
+      ${s.photo
+        ? `<img class="mentee-photo" src="${esc(s.photo)}" alt="${esc(s.name)}" onerror="this.outerHTML='<div class=&quot;initials&quot;>${esc(initialsOf(s.name))}</div>'">`
+        : `<div class="initials">${esc(initialsOf(s.name))}</div>`}
+      <div class="mentee-id">
         <p class="mentee-name">${esc(s.name)}</p>
-        <p class="mentee-pos">${esc(s.position || "")}${s.period ? " &middot; " + esc(s.period) : ""}</p>
+        ${s.position ? `<p class="mentee-now">${esc(s.position)}</p>` : ""}
+        ${s.university ? `<p class="mentee-pos">${esc(s.university)}${s.period ? " &middot; " + esc(s.period) : ""}</p>` : ""}
       </div>
     </div>
-    ${s.taught ? `<p class="mentee-taught"><b>Taught:</b> ${esc(s.taught)}</p>` : ""}
+    ${s.taught ? `<p class="mentee-taught"><b>Guided in:</b> ${esc(s.taught)}</p>` : ""}
     ${s.comment ? `<blockquote><p>${esc(s.comment)}</p></blockquote>` : ""}
+    ${(s.email || s.linkedin) ? `<div class="mentee-links">
+      ${s.email ? `<a href="mailto:${esc(s.email)}" title="${esc(s.email)}">${ICON_MAIL}<span>Email</span></a>` : ""}
+      ${s.linkedin ? `<a href="${esc(s.linkedin)}" target="_blank" rel="noopener">${ICON_IN}<span>LinkedIn</span></a>` : ""}
+    </div>` : ""}
   </article>`).join("");
 
 const stats = [];
