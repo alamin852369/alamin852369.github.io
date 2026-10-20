@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Md Al Amin | Computer Vision and Deep Learning Researcher</title>
+<meta name="description" content="Md Al Amin, M.Sc. in Computer Engineering from Chosun University. Research in computer vision, fine-grained visual classification, explainable AI and biometric security.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --text: #1d1f23;
+    --muted: #5c6370;
+    --line: #e6e2d9;
+    --accent: #8a1c3c;
+    --accent-soft: #f6e9ed;
+    --tag: #eef1ec;
+    --tag-text: #3f5a2e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141518;
+      --surface: #1b1d21;
+      --text: #e7e5e0;
+      --muted: #a2a7b0;
+      --line: #2c2f35;
+      --accent: #e27a97;
+      --accent-soft: #2e1d24;
+      --tag: #232a20;
+      --tag-text: #b5d29c;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 "IBM Plex Sans", system-ui, sans-serif;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Top navigation */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .inner {
+    max-width: 920px; margin: 0 auto; padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  nav .brand { font-family: "Newsreader", serif; font-size: 20px; font-weight: 600; color: var(--text); }
+  nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; flex-wrap: wrap; }
+  nav ul a { color: var(--muted); font-size: 14px; font-weight: 500; }
+  nav ul a:hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 920px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* Hero */
+  .hero {
+    display: grid; grid-template-columns: 180px 1fr; gap: 36px;
+    align-items: center; padding: 56px 0 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .avatar {
+    width: 180px; height: 180px; border-radius: 50%;
+    object-fit: cover; border: 4px solid var(--surface);
+    box-shadow: 0 2px 14px rgba(0,0,0,.08);
+    background: var(--accent-soft);
+  }
+  .avatar-fallback {
+    width: 180px; height: 180px; border-radius: 50%;
+    display: none; align-items: center; justify-content: center;
+    background: var(--accent-soft); color: var(--accent);
+    font-family: "Newsreader", serif; font-size: 56px; font-weight: 600;
+  }
+  h1 {
+    font-family: "Newsreader", serif; font-weight: 600;
+    font-size: 44px; line-height: 1.1; margin: 0 0 6px;
+  }
+  .role { color: var(--muted); margin: 0 0 16px; }
+  .hero p.bio { margin: 0 0 20px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--surface); color: var(--text); font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .btn svg { width: 16px; height: 16px; fill: currentColor; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { opacity: .9; color: #fff; }
+
+  .stats { display: flex; gap: 28px; margin-top: 22px; }
+  .stat b { display: block; font-family: "Newsreader", serif; font-size: 28px; line-height: 1; }
+  .stat span { color: var(--muted); font-size: 13px; }
+
+  /* Sections */
+  section { padding: 44px 0 8px; }
+  h2 {
+    font-family: "Newsreader", serif; font-weight: 600; font-size: 28px;
+    margin: 0 0 20px; display: flex; align-items: center; gap: 14px;
+  }
+  h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 28px 0 12px; font-weight: 600; }
+
+  .interests { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    padding: 6px 14px; border-radius: 999px; font-size: 14px;
+    background: var(--tag); color: var(--tag-text); font-weight: 500;
+  }
+
+  /* Education */
+  .timeline { display: grid; gap: 18px; }
+  .edu {
+    display: grid; grid-template-columns: 170px 1fr; gap: 20px;
+    padding: 18px 20px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 12px;
+  }
+  .edu .when { color: var(--muted); font-size: 14px; }
+  .edu .degree { font-weight: 600; margin: 0; }
+  .edu .school { margin: 0 0 6px; }
+  .edu .detail { color: var(--muted); font-size: 14px; margin: 0; }
+  .edu .detail i { color: var(--text); }
+
+  /* Publications */
+  .pubs { list-style: none; margin: 0; padding: 0; counter-reset: pub; }
+  .pubs li {
+    counter-increment: pub; position: relative;
+    padding: 14px 0 14px 42px; border-bottom: 1px solid var(--line);
+  }
+  .pubs li:last-child { border-bottom: none; }
+  .pubs li::before {
+    content: counter(pub); position: absolute; left: 0; top: 16px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pub-title { font-weight: 600; margin: 0 0 2px; }
+  .pub-authors { margin: 0; font-size: 14px; color: var(--muted); }
+  .pub-authors b { color: var(--text); font-weight: 600; }
+  .pub-venue { margin: 2px 0 0; font-size: 14px; }
+  .pub-venue i { color: var(--text); }
+  .meta { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-left: 6px; vertical-align: middle; }
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px;
+    background: var(--tag); color: var(--tag-text);
+  }
+  .badge.review { background: var(--accent-soft); color: var(--accent); }
+  .badge a { color: inherit; }
+
+  /* Projects and awards */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .card {
+    padding: 16px 18px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 12px;
+  }
+  .card .area { font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+  .card p { margin: 4px 0 0; }
+  .awards { list-style: none; padding: 0; margin: 0; }
+  .awards li { display: grid; grid-template-columns: 70px 1fr; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .awards li:last-child { border-bottom: none; }
+  .awards .yr { color: var(--muted); font-size: 14px; }
+
+  .contact-box {
+    padding: 24px; border-radius: 14px; background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .contact-box p { margin: 0 0 14px; }
+
+  footer {
+    max-width: 920px; margin: 0 auto; padding: 24px 20px 40px;
+    color: var(--muted); font-size: 13px; border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 720px) {
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 36px; gap: 20px; }
+    .avatar, .avatar-fallback { margin: 0 auto; width: 140px; height: 140px; font-size: 44px; }
+    .links, .stats { justify-content: center; }
+    h1 { font-size: 34px; }
+    .edu { grid-template-columns: 1fr; gap: 4px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="brand" href="#">Md Al Amin</a>
+    <ul>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===== Intro ===== -->
+  <header class="hero">
+    <div>
+      <!-- Upload your photo to the repo as photo.jpg. Until then, initials are shown. -->
+      <img class="avatar" src="photo.jpg" alt="Md Al Amin"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="avatar-fallback">MA</div>
+    </div>
+    <div>
+      <h1>Md Al Amin</h1>
+      <p class="role">M.Sc. in Computer Engineering, Chosun University, South Korea</p>
+      <p class="bio">
+        I work on computer vision and deep learning, with a focus on fine-grained visual
+        classification, localized feature learning, and lightweight models for spoof
+        fingerprint detection. I completed my master's as a Research Assistant in the
+        Computer Vision Lab at Chosun University under Professor Ho Yub Jung. Earlier,
+        I worked on bioinformatics and machine learning for healthcare. I am interested
+        in pursuing a PhD in explainable AI and cybersecurity.
+      </p>
+      <div class="links">
+        <a class="btn primary" href="mailto:ahmedalamin@chosun.ac.kr">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5v2.2z"/></svg>
+          Email
+        </a>
+        <!-- Replace # with your Google Scholar profile URL -->
+        <a class="btn" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-6.8 9.4V16c0 2.2 3 4 6.8 4s6.8-1.8 6.8-4v-3.6L12 16l-6.8-3.6z"/></svg>
+          Google Scholar
+        </a>
+        <a class="btn" href="https://github.com/alamin852369" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+          GitHub
+        </a>
+        <!-- Upload your CV to the repo as cv.pdf -->
+        <a class="btn" href="cv.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h8v2H8v-2z"/></svg>
+          CV
+        </a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>19</b><span>Publications</span></div>
+        <div class="stat"><b>412</b><span>Citations</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Research interests ===== -->
+  <section id="research">
+    <h2>Research Interests</h2>
+    <div class="interests">
+      <span class="chip">Computer Vision</span>
+      <span class="chip">Fine-Grained Visual Classification</span>
+      <span class="chip">Deep Learning</span>
+      <span class="chip">Explainable AI</span>
+      <span class="chip">Biometric Security</span>
+      <span class="chip">Image Processing</span>
+      <span class="chip">Human-AI Interaction</span>
+      <span class="chip">Quantum Optimization</span>
+      <span class="chip">Bioinformatics</span>
+    </div>
+  </section>
+
+  <!-- ===== Education ===== -->
+  <section id="education">
+    <h2>Education</h2>
+    <div class="timeline">
+      <div class="edu">
+        <div class="when">Mar 2024 to Feb 2026</div>
+        <div>
+          <p class="degree">M.Sc. in Computer Engineering</p>
+          <p class="school">Chosun University, South Korea</p>
+          <p class="detail">Thesis: <i>Localized Receptive Field-wise Image Feature Learning</i></p>
+          <p class="detail">Research Assistant, Computer Vision Lab. Fully funded scholarship. CGPA 4.06 / 4.50</p>
+        </div>
+      </div>
+      <div class="edu">
+        <div class="when">Feb 2018 to Dec 2022</div>
+        <div>
+          <p class="degree">B.Sc. in Computer Science and Engineering</p>
+          <p class="school">Prime University, Bangladesh</p>
+          <p class="detail">Thesis: <i>Using Statistical Bioinformatics to Reveal the Biological Mechanisms Linking Smoking and Type 2 Diabetes through Transcriptomic and GWAS Analysis</i></p>
+          <p class="detail">CGPA 3.81 / 4.00</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Publications ===== -->
+  <section id="publications">
+    <h2>Publications</h2>
+
+    <h3>Journal Articles</h3>
+    <ol class="pubs">
+      <li>
+        <p class="pub-title">MCL: Meta Convolution Layer</p>
+        <p class="pub-authors">N. Reza, <b>M. Al Amin</b>, and H. Y. Jung</p>
+        <p class="pub-venue"><i>IEEE Access</i>, 2026
+          <span class="meta"><span class="badge review">Under Review</span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">Fine-Grained Visual Classification: A Survey of Methods, Architectures, and Emerging Trends</p>
+        <p class="pub-authors"><b>M. Al Amin</b> and H. Y. Jung</p>
+        <p class="pub-venue"><i>IEEE Access</i>, 2026
+          <span class="meta"><span class="badge">Q1</span><span class="badge"><a href="https://doi.org/10.1109/ACCESS.2026.3681899" target="_blank" rel="noopener">DOI</a></span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">Localized Feature Enhancement via Patch-Wise Learning for Fine-Grained Image Classification</p>
+        <p class="pub-authors"><b>M. Al Amin</b>, N. Reza, and H. Y. Jung</p>
+        <p class="pub-venue"><i>IEEE Access</i>, vol. 13, pp. 198054 to 198064, 2025
+          <span class="meta"><span class="badge">Q1</span><span class="badge"><a href="https://doi.org/10.1109/ACCESS.2025.3635173" target="_blank" rel="noopener">DOI</a></span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">Lightweight Network for Spoof Fingerprint Detection by Attention-Aggregated Receptive Field-Wise Feature</p>
+        <p class="pub-authors"><b>M. Al Amin</b>, N. Reza, and H. Y. Jung</p>
+        <p class="pub-venue"><i>Electronics</i>, vol. 14, no. 9, p. 1823, 2025
+          <span class="meta"><span class="badge">Q2</span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">High Throughput Biological Sequence Analysis Using Machine Learning-Based Integrative Pipeline for Extracting Functional Annotation and Visualization</p>
+        <p class="pub-authors"><b>M. Al Amin</b> et al.</p>
+        <p class="pub-venue"><i>F1000Research</i>, vol. 13, p. 161, 2024</p>
+      </li>
+      <li>
+        <p class="pub-title">Advances of AI in Image-Based Computer-Aided Diagnosis: A Review</p>
+        <p class="pub-authors">M. N. Yeasmin, <b>M. Al Amin</b>, T. J. Joti, Z. Aung, and M. A. Azim</p>
+        <p class="pub-venue"><i>Array</i>, vol. 23, p. 100357, 2024
+          <span class="meta"><span class="badge">Q1</span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">Gender Differences-Based Bioinformatics Analysis to Identify Hub Genes and Key Pathways in Type 2 Diabetes</p>
+        <p class="pub-authors">M. S. Hossain et al.</p>
+        <p class="pub-venue"><i>Informatics in Medicine Unlocked</i>, vol. 40, p. 101302, 2023</p>
+      </li>
+      <li>
+        <p class="pub-title">Molecular Biomarker Identification Using a Network-Based Bioinformatics Approach That Links COVID-19 With Smoking</p>
+        <p class="pub-authors">M. A. Rahman, <b>M. Al Amin</b>, M. N. Yeasmin, and M. Z. Islam</p>
+        <p class="pub-venue"><i>Bioinformatics and Biology Insights</i>, vol. 17, 2023</p>
+      </li>
+      <li>
+        <p class="pub-title">Bioinformatics and Network Biology Approach to Identifying Type 2 Diabetes Genes and Pathways That Influence the Progression of Breast Cancer</p>
+        <p class="pub-authors">M. S. Sarkar, M. M. Mia, <b>M. Al Amin</b>, M. S. Hossain, and M. Z. Islam</p>
+        <p class="pub-venue"><i>Heliyon</i>, vol. 9, no. 5, 2023
+          <span class="meta"><span class="badge">Q1</span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">Bioinformatics Approach to Analyse COVID-19 Biomarkers Accountable for Generation of Intracranial Aneurysm in COVID-19 Patients</p>
+        <p class="pub-authors">M. Snigdha, A. Akter, <b>M. Al Amin</b>, and M. Z. Islam</p>
+        <p class="pub-venue"><i>Informatics in Medicine Unlocked</i>, vol. 39, p. 101247, 2023</p>
+      </li>
+      <li>
+        <p class="pub-title">Bioinformatics Strategies to Identify Shared Molecular Biomarkers That Link Ischemic Stroke and Moyamoya Disease With Glioblastoma</p>
+        <p class="pub-authors">M. K. Islam et al.</p>
+        <p class="pub-venue"><i>Pharmaceutics</i>, vol. 14, no. 8, p. 1573, 2022
+          <span class="meta"><span class="badge">Q1</span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">Statistical Bioinformatics to Uncover the Underlying Biological Mechanisms That Linked Smoking With Type 2 Diabetes Patients Using Transcriptomic and GWAS Analysis</p>
+        <p class="pub-authors">A. S. M. Ripon Rouf et al.</p>
+        <p class="pub-venue"><i>Molecules</i>, vol. 27, no. 14, p. 4390, 2022
+          <span class="meta"><span class="badge">Q1</span></span></p>
+      </li>
+      <li>
+        <p class="pub-title">A Secure Framework Toward IoMT-Assisted Data Collection, Modeling, and Classification for Intelligent Dermatology Healthcare Services</p>
+        <p class="pub-authors">M. K. Islam et al.</p>
+        <p class="pub-venue"><i>Contrast Media &amp; Molecular Imaging</i>, vol. 2022, p. 6805460, 2022</p>
+      </li>
+    </ol>
+
+    <h3>Conference Proceedings</h3>
+    <ol class="pubs">
+      <li>
+        <p class="pub-title">Spam Detection with Comparative Analysis and Spamming Words Extractions</p>
+        <p class="pub-authors">M. K. Islam, <b>M. Al Amin</b>, M. R. Islam, M. N. I. Mahbub, M. I. H. Showrov, and C. Kaushal</p>
+        <p class="pub-venue"><i>9th International Conference on Reliability, Infocom Technologies and Optimization (ICRITO)</i>, IEEE, 2021</p>
+      </li>
+      <li>
+        <p class="pub-title">Comparative Analysis of Steering Angle Prediction for Automated Object Using Deep Neural Network</p>
+        <p class="pub-authors">M. K. Islam, M. N. Yeasmin, C. Kaushal, <b>M. Al Amin</b>, M. R. Islam, and M. I. H. Showrov</p>
+        <p class="pub-venue"><i>9th International Conference on Reliability, Infocom Technologies and Optimization (ICRITO)</i>, IEEE, 2021</p>
+      </li>
+      <li>
+        <p class="pub-title">Comparative Micro Blogging News Analysis on the COVID-19 Pandemic Scenario</p>
+        <p class="pub-authors">C. Kaushal, M. A. R. Refat, <b>M. Al Amin</b>, and M. K. Islam</p>
+        <p class="pub-venue"><i>International Conference on Data Science and Applications (ICDSA)</i>, Springer, 2021</p>
+      </li>
+      <li>
+        <p class="pub-title">Sentiment Analysis of Microblogging Dataset on Coronavirus Pandemic</p>
+        <p class="pub-authors">N. I. Mahbub et al.</p>
+        <p class="pub-venue"><i>5th International Conference on Electrical Information and Communication Technology (EICT)</i>, IEEE, 2021</p>
+      </li>
+      <li>
+        <p class="pub-title">A Comparative Analysis of Early Stage Diabetes Prediction Using Machine Learning and Deep Learning Approach</p>
+        <p class="pub-authors">M. A. R. Refat, <b>M. Al Amin</b>, C. Kaushal, M. N. Yeasmin, and M. K. Islam</p>
+        <p class="pub-venue"><i>6th International Conference on Signal Processing, Computing and Control (ISPCC)</i>, IEEE, 2021</p>
+      </li>
+    </ol>
+
+    <h3>Book Chapters</h3>
+    <ol class="pubs">
+      <li>
+        <p class="pub-title">IoT and Deep Learning-Based Smart Healthcare with an Integrated Security System to Detect Various Skin Lesions</p>
+        <p class="pub-authors">K. Islam et al.</p>
+        <p class="pub-venue">In <i>Artificial Intelligence for Disease Diagnosis and Prognosis in Smart Healthcare</i>, CRC Press, 2023</p>
+      </li>
+      <li>
+        <p class="pub-title">An IoMT-Based Smart Remote Monitoring System for Healthcare</p>
+        <p class="pub-authors">C. Kaushal, M. K. Islam, A. Singla, and <b>M. Al Amin</b></p>
+        <p class="pub-venue">In <i>IoT-Enabled Smart Healthcare Systems, Services and Applications</i>, Wiley, 2022</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ===== Projects ===== -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="grid">
+      <div class="card"><span class="area">Computer Vision</span><p>Fine-grained image classification using convolutional neural networks in PyTorch.</p></div>
+      <div class="card"><span class="area">Computer Vision</span><p>Fake fingerprint detection using convolutional neural networks in PyTorch.</p></div>
+      <div class="card"><span class="area">Computer Vision</span><p>Steering angle prediction with a CNN trained on images of lane lines.</p></div>
+      <div class="card"><span class="area">Generative Models</span><p>Generating digit images with GANs on the MNIST dataset.</p></div>
+      <div class="card"><span class="area">NLP</span><p>20 Newsgroups text classification using an attention-based BiLSTM.</p></div>
+      <div class="card"><span class="area">NLP</span><p>Question pair similarity on the Quora dataset using machine learning.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== Awards ===== -->
+  <section id="awards">
+    <h2>Awards and Certifications</h2>
+    <ul class="awards">
+      <li><span class="yr">2023</span><span>Fully funded scholarship for the M.Sc. in Computer Engineering, Chosun University</span></li>
+      <li><span class="yr">2020</span><span>Runner-up, Programming Contest, Dept. of CSE, Prime University</span></li>
+      <li><span class="yr"></span><span>Python Basic and Python Intermediate certifications, HackerRank</span></li>
+      <li><span class="yr"></span><span>COVID-19 Operational Planning Guidelines and Partners Platform, World Health Organization</span></li>
+      <li><span class="yr"></span><span>4th bdSIG (Bangladesh School of Internet Governance) Fellowship</span></li>
+    </ul>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="contact-box">
+      <p>I am happy to hear about research collaborations and PhD opportunities. The best way to reach me is by email.</p>
+      <div class="links">
+        <a class="btn primary" href="mailto:ahmedalamin@chosun.ac.kr">ahmedalamin@chosun.ac.kr</a>
+        <a class="btn" href="https://github.com/alamin852369" target="_blank" rel="noopener">github.com/alamin852369</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  &copy; <span id="yr">2026</span> Md Al Amin. Built with GitHub Pages.
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
