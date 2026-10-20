@@ -124,6 +124,23 @@
   .quote .who { font-weight: 600; font-size: 14px; }
   .quote .who span { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
 
+  /* Teaching experience */
+  .mentor-stats { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+  .mstat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; min-width: 160px; }
+  .mstat b { display: block; font: 600 30px/1.1 "Fraunces", serif; color: var(--accent); }
+  .mstat span { font-size: 13px; color: var(--muted); }
+  .mentees { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .mentee { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+  .mentee-head { display: flex; align-items: center; gap: 14px; }
+  .initials { width: 46px; height: 46px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .mentee-name { font-weight: 600; margin: 0; }
+  .mentee-pos { font-size: 13px; color: var(--muted); margin: 0; }
+  .mentee-taught { font-size: 14px; margin: 0; }
+  .mentee-taught b { color: var(--accent-2); font-weight: 600; }
+  .mentee blockquote { margin: 0; padding: 14px 16px; background: var(--warm-soft); border-radius: 12px; font-style: italic; position: relative; }
+  .mentee blockquote::before { content: "\201C"; font: 600 34px/1 "Fraunces", serif; color: var(--accent-2); opacity: .6; position: absolute; top: 4px; left: 10px; }
+  .mentee blockquote p { margin: 0 0 0 18px; }
+
   /* Publications */
   .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
   .tab { border: 1px solid var(--line); background: var(--surface); color: var(--muted); padding: 6px 14px; border-radius: 999px; font: 500 13px "Inter", sans-serif; cursor: pointer; }
@@ -181,7 +198,7 @@
     .hero { grid-template-columns: 1fr; padding-top: 40px; gap: 32px; }
     .profile-card { order: -1; }
     h1 { font-size: 38px; }
-    .featured, .quotes { grid-template-columns: 1fr; }
+    .featured, .quotes, .mentees { grid-template-columns: 1fr; }
     .teach-grid, .edu-grid, .two { grid-template-columns: 1fr; }
     .contact { grid-template-columns: 1fr; padding: 28px; }
     .contact .actions { justify-content: flex-start; }
@@ -199,7 +216,7 @@
     <ul>
       <li><a href="#research">Research</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="#teaching" id="nav-teaching">Teaching</a></li>
+      <li><a href="#teaching">Teaching</a></li>
       <li><a href="#publications">Publications</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -319,30 +336,17 @@
     </div>
   </section>
 
-  <!-- ================= TEACHING & MENTORING =================
-       Edit the TEACHING list in the script at the bottom of this file.
-       This section stays hidden until you add at least one entry. -->
+  <!-- ================= TEACHING EXPERIENCE =================
+       Add students in the STUDENTS list in the script at the bottom of this file. -->
   <section id="teaching">
     <div class="sec-head">
       <div>
-        <h2>Teaching and Mentoring</h2>
-        <p class="sec-sub">Students and junior researchers I have guided.</p>
+        <h2>Teaching Experience</h2>
+        <p class="sec-sub">Alongside my own research, I have taught and guided junior students in research. Here are some of them, in their own words.</p>
       </div>
     </div>
-    <div class="teach-grid" id="teach-list"></div>
-  </section>
-
-  <!-- ================= TESTIMONIALS =================
-       Edit the TESTIMONIALS list in the script at the bottom of this file.
-       This section stays hidden until you add at least one entry. -->
-  <section id="testimonials">
-    <div class="sec-head">
-      <div>
-        <h2>What Students Say</h2>
-        <p class="sec-sub">Feedback from juniors I have taught and mentored.</p>
-      </div>
-    </div>
-    <div class="quotes" id="quote-list"></div>
+    <div class="mentor-stats hidden" id="mentor-stats"></div>
+    <div class="mentees" id="mentee-list"></div>
   </section>
 
   <!-- ================= PUBLICATIONS ================= -->
@@ -438,21 +442,24 @@
 
 <script>
 /* =====================================================================
-   EDIT HERE: Teaching and mentoring
-   Add one object per item. Example:
-   { title: "Deep Learning with PyTorch", meta: "Lab sessions, Chosun University, 2025",
-     text: "Taught CNN basics and PyTorch training loops to junior lab members." },
+   EDIT HERE: Teaching Experience
+   Add one object per student, copying the example below.
+   Use their real words, with their permission.
+
+   {
+     name: "Student Name",
+     position: "B.Sc. student, Prime University",
+     taught: "Research paper writing, PyTorch",
+     period: "2024 to 2025",
+     comment: "Their comment about you, in their own words."
+   },
    ===================================================================== */
-const TEACHING = [
+const STUDENTS = [
 ];
 
-/* =====================================================================
-   EDIT HERE: Testimonials from students
-   Add one object per student. Use real comments only, with their permission. Example:
-   { quote: "Their explanations made ...", name: "Student Name", role: "B.Sc. student, Prime University" },
-   ===================================================================== */
-const TESTIMONIALS = [
-];
+/* Optional numbers shown above the cards. Leave as null to hide. */
+const STUDENTS_MENTORED = null;     // e.g. 6
+const COAUTHORED_PAPERS = null;     // e.g. 3
 
 /* =====================================================================
    Publications. cites = Google Scholar citation count (null if not shown).
@@ -485,23 +492,28 @@ const PUBS = [
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const boldMe = a => esc(a).replace(/M\. Al Amin/g, "<b>M. Al Amin</b>");
 
-// Teaching
-const teachEl = document.getElementById("teach-list");
-if (TEACHING.length) {
-  teachEl.innerHTML = TEACHING.map(t =>
-    `<div class="teach"><h3>${esc(t.title)}</h3><div class="meta">${esc(t.meta || "")}</div><p>${esc(t.text || "")}</p></div>`).join("");
-} else {
-  document.getElementById("teaching").classList.add("hidden");
-  document.getElementById("nav-teaching").parentElement.classList.add("hidden");
-}
+// Teaching Experience
+const initialsOf = n => n.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+document.getElementById("mentee-list").innerHTML = STUDENTS.map(s => `
+  <article class="mentee">
+    <div class="mentee-head">
+      <div class="initials">${esc(initialsOf(s.name))}</div>
+      <div>
+        <p class="mentee-name">${esc(s.name)}</p>
+        <p class="mentee-pos">${esc(s.position || "")}${s.period ? " &middot; " + esc(s.period) : ""}</p>
+      </div>
+    </div>
+    ${s.taught ? `<p class="mentee-taught"><b>Taught:</b> ${esc(s.taught)}</p>` : ""}
+    ${s.comment ? `<blockquote><p>${esc(s.comment)}</p></blockquote>` : ""}
+  </article>`).join("");
 
-// Testimonials
-const quoteEl = document.getElementById("quote-list");
-if (TESTIMONIALS.length) {
-  quoteEl.innerHTML = TESTIMONIALS.map(q =>
-    `<figure class="quote" style="margin:0"><p>${esc(q.quote)}</p><div class="who">${esc(q.name)}<span>${esc(q.role || "")}</span></div></figure>`).join("");
-} else {
-  document.getElementById("testimonials").classList.add("hidden");
+const stats = [];
+if (STUDENTS_MENTORED) stats.push(`<div class="mstat"><b>${STUDENTS_MENTORED}</b><span>Students mentored</span></div>`);
+if (COAUTHORED_PAPERS) stats.push(`<div class="mstat"><b>${COAUTHORED_PAPERS}</b><span>Papers co-authored with students</span></div>`);
+if (stats.length) {
+  const el = document.getElementById("mentor-stats");
+  el.innerHTML = stats.join("");
+  el.classList.remove("hidden");
 }
 
 // Publications
