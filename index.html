@@ -422,6 +422,11 @@
   .contact .btn { justify-content: center; text-align: center; white-space: nowrap; padding-left: 8px; padding-right: 8px; font-size: 13.5px; }
   @media (max-width: 860px) { .hero h1 { font-size: 40px; } .bio { text-align: left; } }
 
+  /* Explore shown on every page: the current page's tile is marked */
+  .tile.current { background: linear-gradient(160deg, color-mix(in srgb, var(--c) 14%, var(--surface)) 0%, var(--surface) 80%); border-color: var(--c); }
+  .tile.current em { background: var(--c); color: #fff; }
+  @media (prefers-color-scheme: dark) { .tile.current em { color: #111; } }
+
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
   .hero .actions { flex-wrap: nowrap; gap: 8px; }
@@ -895,13 +900,13 @@ document.getElementById("yr").textContent = new Date().getFullYear();
 /* ---------- Separate pages: each menu item shows only its own page ---------- */
 const PAGES = {
   home:         ["home", "latest", "explore", "contact"],
-  research:     ["research"],
-  experience:   ["experience"],
-  teaching:     ["teaching"],
-  publications: ["publications"],
-  education:    ["education"],
-  projects:     ["more"],
-  contact:      ["contact"]
+  research:     ["research", "explore"],
+  experience:   ["experience", "explore"],
+  teaching:     ["teaching", "explore"],
+  publications: ["publications", "explore"],
+  education:    ["education", "explore"],
+  projects:     ["more", "explore"],
+  contact:      ["explore", "contact"]
 };
 const ALL_BLOCKS = [...new Set(Object.values(PAGES).flat())];
 function showPage() {
@@ -916,6 +921,13 @@ function showPage() {
     if (on) { void el.offsetWidth; el.classList.add("page-in"); }
   });
   document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + key));
+  // Mark the Explore tile for the page you are on
+  document.querySelectorAll(".tile").forEach(t => {
+    const here = t.getAttribute("href") === "#" + key;
+    t.classList.toggle("current", here);
+    const em = t.querySelector("em");
+    if (em) em.innerHTML = here ? "You are here" : "Open &rarr;";
+  });
 
   // Previous / Next buttons on inner pages
   const order = Object.keys(PAGES);
