@@ -348,6 +348,8 @@
   .tiles > .tile { grid-column: span 2; }
   .tiles > .tile:nth-child(4) { grid-column: 2 / 4; }
   .tiles > .tile:nth-child(5) { grid-column: 4 / 6; }
+  .tiles.four { grid-template-columns: repeat(4, 1fr); }
+  .tiles.four > .tile, .tiles.four > .tile:nth-child(4), .tiles.four > .tile:nth-child(5) { grid-column: span 2; }
   .tile {
     --c: var(--accent);
     display: flex; flex-direction: column; gap: 6px; padding: 24px; border-radius: 18px;
@@ -425,6 +427,7 @@
   .contact .actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
   .contact .actions .btn { grid-column: span 2; }
   .contact .actions .btn:nth-child(-n+2) { grid-column: span 3; }
+  .contact .actions .btn:nth-child(6) { grid-column: 2 / 6; }
   @media (max-width: 520px) { .contact .actions { grid-template-columns: 1fr; } .contact .actions .btn, .contact .actions .btn:nth-child(-n+2) { grid-column: auto; } }
   .contact .btn { justify-content: center; text-align: center; white-space: nowrap; padding-left: 8px; padding-right: 8px; font-size: 13.5px; }
   @media (max-width: 860px) { .hero h1 { font-size: 40px; } .bio { text-align: left; } }
@@ -658,6 +661,10 @@
   @media (max-width: 1100px) { .awards-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 700px) { .awards-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 440px) { .awards-grid { grid-template-columns: 1fr; } }
+
+  /* Contact page: contact box first, Explore below it */
+  body.on-contact main { display: flex; flex-direction: column; }
+  body.on-contact #contact { order: -1; margin-top: 28px; }
 
   /* Keep hero buttons on one row on desktop */
   .hero { grid-template-columns: 1fr 280px; gap: 36px; }
@@ -1103,6 +1110,7 @@
         <a class="btn" href="https://scholar.google.com/citations?user=AnmXXgoAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
         <a class="btn" href="https://www.linkedin.com/in/md-al-amin-7359371b3/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn" href="https://github.com/alamin852369" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="cv.pdf" target="_blank" rel="noopener">Download CV</a>
       </div>
     </div>
   </section>
@@ -1132,6 +1140,9 @@
    period      When
    comment     Their own words about you
    ===================================================================== */
+/* SHOW_TEACHING: set to true to show the Teaching page again (menu, Explore card and page). */
+const SHOW_TEACHING = false;
+
 const STUDENTS = [
   {
     name: "Student Name 1",
@@ -1328,6 +1339,13 @@ const PAGES = {
   projects:     ["more", "explore"],
   contact:      ["explore", "contact"]
 };
+if (!SHOW_TEACHING) {
+  delete PAGES.teaching;
+  document.getElementById("teaching")?.remove();
+  document.querySelector('#menu a[href="#teaching"]')?.parentElement.remove();
+  document.querySelector('.tile.t-teaching')?.remove();
+  document.querySelector('.tiles')?.classList.add('four');
+}
 const ALL_BLOCKS = [...new Set(Object.values(PAGES).flat())];
 function showPage() {
   let key = location.hash.slice(1); if (key === "experience") key = "research"; if (!PAGES[key]) key = "home";
@@ -1342,6 +1360,7 @@ function showPage() {
   });
   document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + key));
   document.body.classList.add("still");
+  document.body.classList.toggle("on-contact", key === "contact");
   // Mark the Explore tile for the page you are on
   document.querySelectorAll(".tile").forEach(t => {
     const here = t.getAttribute("href") === "#" + key;
