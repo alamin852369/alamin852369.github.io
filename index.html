@@ -427,7 +427,7 @@
   .contact .actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
   .contact .actions .btn { grid-column: span 2; }
   .contact .actions .btn:nth-child(-n+2) { grid-column: span 3; }
-  .contact .actions .btn:nth-child(6) { grid-column: 2 / 6; }
+  .contact .actions .btn:nth-child(6), .contact .actions .btn:nth-child(7) { grid-column: span 3; }
   @media (max-width: 520px) { .contact .actions { grid-template-columns: 1fr; } .contact .actions .btn, .contact .actions .btn:nth-child(-n+2) { grid-column: auto; } }
   .contact .btn { justify-content: center; text-align: center; white-space: nowrap; padding-left: 8px; padding-right: 8px; font-size: 13.5px; }
   @media (max-width: 860px) { .hero h1 { font-size: 40px; } .bio { text-align: left; } }
@@ -733,6 +733,8 @@
           <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5v2.2z"/></svg>Email me</a>
         <a class="btn" href="https://scholar.google.com/citations?user=AnmXXgoAAAAJ&hl=en" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-6.8 9.4V16c0 2.2 3 4 6.8 4s6.8-1.8 6.8-4v-3.6L12 16l-6.8-3.6z"/></svg>Google Scholar</a>
+        <a class="btn" href="https://orcid.org/0000-0001-6919-0031" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#a6ce39"/><text x="12" y="16.2" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="10.5" fill="#fff">iD</text></svg>ORCID</a>
         <a class="btn" href="https://www.linkedin.com/in/md-al-amin-7359371b3/" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
         <a class="btn" href="https://github.com/alamin852369" target="_blank" rel="noopener">
@@ -1111,6 +1113,7 @@
         <a class="btn" href="https://www.linkedin.com/in/md-al-amin-7359371b3/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn" href="https://github.com/alamin852369" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="cv.pdf" target="_blank" rel="noopener">Download CV</a>
+        <a class="btn" href="https://orcid.org/0000-0001-6919-0031" target="_blank" rel="noopener">ORCID</a>
       </div>
     </div>
   </section>
